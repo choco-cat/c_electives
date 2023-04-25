@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Курсовая работа (1 курс)\Планирование факультативных учебных дисциплин\Student.cpp" />
+    <ClCompile Include="..\..\Курсовая работа (1 курс)\Планирование факультативных учебных дисциплин\Teacher.cpp" />
     <ClCompile Include="Authorization.cpp" />
     <ClCompile Include="Description.cpp" />
     <ClCompile Include="Mainer.cpp" />

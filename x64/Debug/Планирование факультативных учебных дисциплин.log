@@ -1,12 +1,12 @@
 ﻿  Authorization.cpp
-f:\Stas\git\c_electives\Authorization.cpp(123,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
-f:\Stas\git\c_electives\Authorization.cpp(123,16): message : этот аргумент используется в качестве размера буфера
-f:\Stas\git\c_electives\Authorization.cpp(125,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
-f:\Stas\git\c_electives\Authorization.cpp(125,11): message : этот аргумент используется в качестве размера буфера
-f:\Stas\git\c_electives\Authorization.cpp(142,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
-f:\Stas\git\c_electives\Authorization.cpp(142,16): message : этот аргумент используется в качестве размера буфера
-f:\Stas\git\c_electives\Authorization.cpp(193,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
-f:\Stas\git\c_electives\Authorization.cpp(193,16): message : этот аргумент используется в качестве размера буфера
-f:\Stas\git\c_electives\Authorization.cpp(207,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
-f:\Stas\git\c_electives\Authorization.cpp(207,11): message : этот аргумент используется в качестве размера буфера
-  Планирование факультативных учебных дисциплин.vcxproj -> F:\Stas\git\c_electives\x64\Debug\Планирование факультативных учебных дисциплин.exe
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(131,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(131,16): message : этот аргумент используется в качестве размера буфера
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(133,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(133,11): message : этот аргумент используется в качестве размера буфера
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(150,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(150,16): message : этот аргумент используется в качестве размера буфера
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(201,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(201,16): message : этот аргумент используется в качестве размера буфера
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(215,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\Authorization.cpp(215,11): message : этот аргумент используется в качестве размера буфера
+  Планирование факультативных учебных дисциплин.vcxproj -> C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\x64\Debug\Планирование факультативных учебных дисциплин.exe
