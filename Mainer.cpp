@@ -3,8 +3,8 @@
 
 int main()
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
+	SetConsoleCP(CP_UTF8);
+	SetConsoleOutputCP(CP_UTF8);
 	printf("--------------------------------------\n");
 	printf("| Добро пожаловать в нашу программу! |");
 	printf("\n--------------------------------------");

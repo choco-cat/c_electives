@@ -1,4 +1,12 @@
-﻿  Description.cpp
-f:\Stas\курсовая\Курсовая работа (1 курс)_2\Description.cpp(233,16): warning C4477: "printf": в строке форматирования "%15s" требуется аргумент типа "char *", но вариативный аргумент "2" имеет тип "int"
-f:\Stas\курсовая\Курсовая работа (1 курс)_2\Description.cpp(233,16): warning C4313: printf: конфликт "%s" в строке формата с аргументом 2 типа "int"
-  Планирование факультативных учебных дисциплин.vcxproj -> F:\Stas\курсовая\Курсовая работа (1 курс)_2\x64\Debug\Планирование факультативных учебных дисциплин.exe
+﻿  Authorization.cpp
+f:\Stas\git\c_electives\Authorization.cpp(123,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+f:\Stas\git\c_electives\Authorization.cpp(123,16): message : этот аргумент используется в качестве размера буфера
+f:\Stas\git\c_electives\Authorization.cpp(125,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+f:\Stas\git\c_electives\Authorization.cpp(125,11): message : этот аргумент используется в качестве размера буфера
+f:\Stas\git\c_electives\Authorization.cpp(142,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+f:\Stas\git\c_electives\Authorization.cpp(142,16): message : этот аргумент используется в качестве размера буфера
+f:\Stas\git\c_electives\Authorization.cpp(193,16): warning C4477: "fscanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+f:\Stas\git\c_electives\Authorization.cpp(193,16): message : этот аргумент используется в качестве размера буфера
+f:\Stas\git\c_electives\Authorization.cpp(207,11): warning C4477: "scanf_s": в строке форматирования "%s" требуется аргумент типа "unsigned int", но вариативный аргумент "2" имеет тип "size_t"
+f:\Stas\git\c_electives\Authorization.cpp(207,11): message : этот аргумент используется в качестве размера буфера
+  Планирование факультативных учебных дисциплин.vcxproj -> F:\Stas\git\c_electives\x64\Debug\Планирование факультативных учебных дисциплин.exe

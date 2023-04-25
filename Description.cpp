@@ -30,7 +30,7 @@ void faculties(Student buffer)
     {
         scanf_s("%d", &number);
         //buffer.electives[number - 1] = 1;
-        printf("\nÄèñöèïëèíà ïîä íîìåðîì %d áûëà óñïåøíî äîáàâëåíà â ñïèñîê æåëàåìûõ.", number );
+        printf("\nДисциплина под номером %d была успешно добавлена в список желаемых.", number);
     }
 }
 
@@ -39,12 +39,11 @@ int file_open()
     err = fopen_s(&data, "DataOfStudent.bin", "a+");
     if (!data)
     {
-        printf("Îøèáêà ïðè ðàáîòå ñ ôàéëîì (åãî ñîçäàíèè èëè îòêðûòèè) .\n");
+        printf("Ошибка при работе с файлом (его создании или открытии) .\n");
         return -2;
     }
     return 0;
 }
-
 int AddStudent()
 {
     int n;
@@ -53,57 +52,57 @@ int AddStudent()
         return 0;
     }
     printf("\n\n--------------------------------------------------\n");
-    printf(    "| Îñóùåñòâëÿåì äîáàâëåíèå ñâåäåíèé î ñòóäåíòå... |\n");
-    printf(    "--------------------------------------------------\n");
-    printf("Êàêîå êîëè÷åñòâî ñâåäåíèé âû æåëàåòå äîáàâèòü?");
+    printf("| Осуществляем добавление сведений о студенте... |\n");
+    printf("--------------------------------------------------\n");
+    printf("Какое количество сведений вы желаете добавить?");
     scanf_s("%d", &n);
     int count = 0;
     while (count < n)
     {
-        printf("Çàïèñü äàííûõ %d-îãî ñòóäåíòà...\n", count + 1);
-        puts("Ââåäèòå ôàìèëèþ ñòóäåíòà : \n");
+        printf("Запись данных %d-ого студента...\n", count + 1);
+        puts("Введите фамилию студента : \n");
         fflush(stdin);
         getchar();
         gets_s(buffer.name);
-        puts("Ââåäèòå íîìåð ãðóïïû ñòóäåíòà :\n");
+        puts("Введите номер группы студента :\n");
         //fflush(stdin);
         //getchar();
         scanf_s("%d", &buffer.group_number);
-        puts("\nÂâåäèòå ñðåäíèé áàëë ñòóäåíòà.\n");
+        puts("\nВведите средний балл студента.\n");
         scanf_s("%f", &buffer.average_mark);
         //faculties(buffer);
-        printf("\nÔèçèêà? ");
+        printf("\nФизика? ");
         scanf_s("%d", &buffer.electives[0]);
 
-        printf("\nÏðîãðàììèðîâàíèå? ");
+        printf("\nПрограммирование? ");
         scanf_s("%d", &buffer.electives[1]);
-        printf("\nÌàòåìàòèêà? ");
+        printf("\nМатематика? ");
         scanf_s("%d", &buffer.electives[2]);
-        printf("\nÀíãëèéñêèé ÿçûê? ");
+        printf("\nАнглийский язык? ");
         scanf_s("%d", &buffer.electives[3]);
-        printf("\nÁàçû äàííûõ? ");
+        printf("\nБазы данных? ");
         scanf_s("%d", &buffer.electives[4]);
-        printf("\nÄàííûå %d-îé èíôîðìàöèè áûëè çàïèñàíû â áèíàðíûé ôàéë.\n", count + 1);
-        fwrite(&buffer, sizeof(buffer), 1, data);//çàïèñü öåëèêîì
+        printf("\nДанные %d-ой информации были записаны в бинарный файл.\n", count + 1);
+        fwrite(&buffer, sizeof(buffer), 1, data);//запись целиком
         count++;
     }
     fclose(data);
-    printf("\nÁèíàðíûé ôàéë, ñîñòîÿùèé èç ýëåìåíòîâ ñòðóêòóðû áûë óñïåøíî ñôîðìèðîâàí.\n");
+    printf("\nБинарный файл, состоящий из элементов структуры был успешно сформирован.\n");
     stud++;
     return 0;
-	
+
 }
 
 int menu()
 {
     int n;
-    printf("\nÍàø àññîðòèìåíò ôóíêöèé :");
-    printf("\n1 - Ôîðìèðîâàíèå áèíàðíîãî ôàéëà èç ýëåìåíòîâ, çàäàííîé ñòðóêòóðû.");
-    printf("\n2 - Ïå÷àòü ôîðìèðîâàííîãî áèíàðíîãî ôàéëà.");
-    printf("\n3 - Äîáàâëåíèå äàííûõ î äðóãèõ ìàøèíàõ.");
-    printf("\n4 - Ïîèñê äàííûõ î ìàøèíå ïî ìàðêå.");
-    printf("\n5 - Âûõîä èç ïðîãðàììû.");
-    printf("\n×åãî èçâîëèòå?\n");
+    printf("\nНаш ассортимент функций :");
+    printf("\n1 - Формирование бинарного файла из элементов, заданной структуры.");
+    printf("\n2 - Печать формированного бинарного файла.");
+    printf("\n3 - Добавление данных о других машинах.");
+    printf("\n4 - Поиск данных о машине по марке.");
+    printf("\n5 - Выход из программы.");
+    printf("\nЧего изволите?\n");
     scanf_s("%d", &n);
     return n;
 }
@@ -111,77 +110,77 @@ int menu()
 /*
 int form_file()
 {
-    prov = 1;
-    int k;
-    printf("\nÍà÷èíàåì ôîðìèðîâàíèå ôàéëà...\n");
-    if (file_open() == -2)
-    {
-        return 0;
-    }
-    printf("\nÂâåäèòå ïëàíèðóåìûõ çàïèñåé äàííûõ àâòîìîáèëåé n = ");
-    scanf_s("%d", &n);
-    count = 0;
-    while (count < n)
-    {
-        printf("Çàïèñü äàííûõ %d-îãî àâòîìîáèëÿ...\n", count + 1);
-        puts("Ââåäèòå ðåãèñòðàöèîííûé íîìåð àâòîìîáèëÿ :\n");
-        fflush(stdin);
-        getchar();
-        gets_s(avt.regnomer);
-        puts("Ââåäèòå ìàðêó àâòîìîáèëÿ :\n");
-        gets_s(avt.mark);
-        puts("Ââåäèòå èìÿ ìàñòåðà àâòîìîáèëÿ :\n");
-        gets_s(avt.master);
-        do
-        {
-            printf("Ââåäèòå äëèíó ïðîáåãà (â êèëîìåòðàõ) àâòîìîáèëÿ :\n");
-            scanf_s("%f", &avt.probeg);
-            if (avt.probeg <= 0)
-            {
-                printf("\nÍåäîïóñòèìîå çíà÷åíèå äëèíà ïðîáåãà àâòîìîáèëÿ.");
-            }
-        } while (avt.probeg <= 0);
-        printf("\nÄàííûå %d-îãî àâòîìîáèëÿ áûëè çàïèñàíû â áèíàðíûé ôàéë.\n", count + 1);
-        fwrite(&avt, sizeof(avt), 1, f);//çàïèñü öåëèêîì
-        count++;
-    }
+prov = 1;
+int k;
+printf("\nНачинаем формирование файла...\n");
+if (file_open() == -2)
+{
+return 0;
+}
+printf("\nВведите планируемых записей данных автомобилей n = ");
+scanf_s("%d", &n);
+count = 0;
+while (count < n)
+{
+printf("Запись данных %d-ого автомобиля...\n", count + 1);
+puts("Введите регистрационный номер автомобиля :\n");
+fflush(stdin);
+getchar();
+gets_s(avt.regnomer);
+puts("Введите марку автомобиля :\n");
+gets_s(avt.mark);
+puts("Введите имя мастера автомобиля :\n");
+gets_s(avt.master);
+do
+{
+printf("Введите длину пробега (в километрах) автомобиля :\n");
+scanf_s("%f", &avt.probeg);
+if (avt.probeg <= 0)
+{
+printf("\nНедопустимое значение длина пробега автомобиля.");
+}
+} while (avt.probeg <= 0);
+printf("\nДанные %d-ого автомобиля были записаны в бинарный файл.\n", count + 1);
+fwrite(&avt, sizeof(avt), 1, f);//запись целиком
+count++;
+}
 
-    fclose(f);
-    printf("\nÁèíàðíûé ôàéë, ñîñòîÿùèé èç ýëåìåíòîâ ñòðóêòóðû áûë óñïåøíî ñôîðìèðîâàí.\n");
-    return 0;
+fclose(f);
+printf("\nБинарный файл, состоящий из элементов структуры был успешно сформирован.\n");
+return 0;
 }
 */
 
 /*
 int vivod_file()
 {
-    if (file_open() == -2)
-    {
-        printf("Ôàéë íå áûë ñôîðìèðîâàí. Ïîïðîñèì âàñ åãî ñôîðìèðîâàòü.\n");
-    }
+if (file_open() == -2)
+{
+printf("Файл не был сформирован. Попросим вас его сформировать.\n");
+}
 
-    int i = 1;
+int i = 1;
 
-    while (fread(&avt, sizeof(avt), 1, f) > 0)
-    {
-        printf("\nÄàííûå %d-îãî àâòîìîáèëÿ.", i);
-        printf("\nÐåãèñòðàöèîííûé íîìåð àâòîìîáèëÿ : ");
-        printf("%s\n", avt.regnomer);
-        printf("Ìàðêà àâòîìîáèëÿ : ");
-        printf("%s\n", avt.mark);
-        printf("Èìÿ ìàñòåðà àâòîìîáèëÿ : ");
-        printf("%s\n", avt.master);
-        printf("Äëèíà ïðîáåãà àâòîìîáèëÿ ( â êèëîìåòðàõ) : ");
-        printf("%f\n", avt.probeg);
-        i++;
-    }
+while (fread(&avt, sizeof(avt), 1, f) > 0)
+{
+printf("\nДанные %d-ого автомобиля.", i);
+printf("\nРегистрационный номер автомобиля : ");
+printf("%s\n", avt.regnomer);
+printf("Марка автомобиля : ");
+printf("%s\n", avt.mark);
+printf("Имя мастера автомобиля : ");
+printf("%s\n", avt.master);
+printf("Длина пробега автомобиля ( в километрах) : ");
+printf("%f\n", avt.probeg);
+i++;
+}
 
-    if (i == 1) {
-        printf("Ôàéë íå ñóùåñòâóåò èëè íå ñîäåðæèò äàííûõ.\n");
-    }
+if (i == 1) {
+printf("Файл не существует или не содержит данных.\n");
+}
 
-    fclose(f);
-    return 0;
+fclose(f);
+return 0;
 }
 
 */
@@ -190,33 +189,33 @@ int PrintStudent()
 {
     if (file_open() == -2)
     {
-        printf("Ôàéë íå áûë ñôîðìèðîâàí. Ïîïðîñèì âàñ åãî ñôîðìèðîâàòü.\n");
+        printf("Файл не был сформирован. Попросим вас его сформировать.\n");
     }
 
     int i = 1;
-    
+
     //while (!feof(data)) {
-    //    fread(&buffer, sizeof(buffer), 1, data);
-    //    while (fread(&avt, sizeof(avt), 1, f) > 0)
+    // fread(&buffer, sizeof(buffer), 1, data);
+    // while (fread(&avt, sizeof(avt), 1, f) > 0)
     while (fread(&buffer, sizeof(buffer), 1, data) > 0) {
-    
-        printf("Çàïèñü äàííûõ %d-îãî ñòóäåíòà...\n", i);
-        printf("\n Èìÿ ñòóäåíòà : ");
+
+        printf("Запись данных %d-ого студента...\n", i);
+        printf("\n Имя студента : ");
         printf("%s", buffer.name);
-        printf("\n Íîìåð ãðóïïû ñòóäåíòà : ");
+        printf("\n Номер группы студента : ");
         printf("%d", buffer.group_number);
-        printf("\n Ñðåäíèé áàëë ñòóäåíòà : ");
+        printf("\n Средний балл студента : ");
         printf("%f", buffer.average_mark);
-        printf("\n%d - äèñöèïëèíà 'ôèçèêà'.", buffer.electives[0]);
-        printf("\n%d - äèñöèïëèíà 'ïðîãðàììèðîâàíèå'.", buffer.electives[1]);
-        printf("\n%d - äèñöèïëèíà 'ìàòåìàòèêà'.", buffer.electives[2]);
-        printf("\n%d - äèñöèïëèíà 'àíãëèéñêèé ÿçûê'.", buffer.electives[3]);
-        printf("\n%d - äèñöèïëèíà 'áàçû äàííûõ'.", buffer.electives[4]);
+        printf("\n%d - дисциплина 'физика'.", buffer.electives[0]);
+        printf("\n%d - дисциплина 'программирование'.", buffer.electives[1]);
+        printf("\n%d - дисциплина 'математика'.", buffer.electives[2]);
+        printf("\n%d - дисциплина 'английский язык'.", buffer.electives[3]);
+        printf("\n%d - дисциплина 'базы данных'.", buffer.electives[4]);
         i++;
     }
     if (i == 1)
     {
-        printf("Ôàéë íå ñóùåñòâóåò èëè íå ñîäåðæèò äàííûõ.\n");
+        printf("Файл не существует или не содержит данных.\n");
     }
     fclose(data);
     return 0;
@@ -224,13 +223,13 @@ int PrintStudent()
 
 void TableStudent()
 {
-   
+
     printf("----------------------------------------------------------------------------------------------------------------------------------\n");
-    printf("| Ôàìèëèÿ ñòóäåíòà |  Íîìåð ãðóïïû |  Ñðåäíèé áàëë  | Ôèçèêà | Ïðîãðàììèðîâàíèå |  Ìàòåìàòèêà  | Àíãëèéñêèé ÿçûê | | Áàçû äàííûõ |\n");
+    printf("| Фамилия студента | Номер группы | Средний балл | Физика | Программирование | Математика | Английский язык | | Базы данных |\n");
     printf("----------------------------------------------------------------------------------------------------------------------------------\n");
     while (fread(&buffer, sizeof(buffer), 1, data) > 0)
     {
-        printf("| %s |    %15s|    %15f|%12d|  %15d|%15d|   %15d|%15d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+        printf("| %s | %15s| %15f|%12d| %15d|%15d| %15d|%15d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
         printf("----------------------------------------------------------------------------------------------------------------------------------\n");
     }
 }
@@ -238,7 +237,7 @@ void TableStudent()
 void SortStudent()
 {
     printf("--------------------------------------\n");
-    printf("| ÑÎÐÒÈÐÎÂÊÀ ÇÀÏÈÑÅÉ                 |");
+    printf("| СОРТИРОВКА ЗАПИСЕЙ |");
     printf("\n--------------------------------------");
     while (true)
     {
