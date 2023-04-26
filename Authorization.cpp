@@ -6,8 +6,6 @@
 #define passAdmin "Passwords_Of_Admin.txt"
 #define passUser "Passwords_Of_User.txt"
 
-// GIT HUB +0T4MVRPCDPFKCDFKDL
-
 int firstMenu()
 {
 	char yourChoice;
@@ -84,12 +82,12 @@ int interfaceOfAdmin()
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
-			AddStudent();
+			//AddStudent();
 		case '6':
-			PrintStudent();
+			TableStudent();
 			break;
 		case '7':
-			TableStudent();
+			
 			break;
 		case '8':
 

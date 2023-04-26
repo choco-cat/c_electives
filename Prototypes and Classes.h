@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string.h>
 #include <windows.h>
-#include <string.h>
+#include <stdlib.h>
 
 extern int firstMenu();
 extern int secondMenuOfAdmin();
@@ -33,12 +33,12 @@ struct Student
 
 struct Teacher
 {
-	int id;
-	char name[10];
+	//int id;
+	char name[30] = "Не известен";
 	char password[10];
 	char sex[10];
 	char phone_number[15];
-	char elective[15];
+	//char elective[15];
 	char department[10];
 	char scientific_title[10];
 };
