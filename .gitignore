@@ -4,12 +4,6 @@ Thumbs.db
 Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
-/.vs
-/x64
-x64
-/x64/
-/x64/*
-test
 
 # Dump file
 *.stackdump
