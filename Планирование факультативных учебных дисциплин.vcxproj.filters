@@ -24,13 +24,13 @@
     <ClCompile Include="Description.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Курсовая работа %281 курс%29\Планирование факультативных учебных дисциплин\Electives.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Student.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Electives.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

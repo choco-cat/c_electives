@@ -1,2 +1,4 @@
 ﻿  Electives.cpp
-  Планирование факультативных учебных дисциплин.vcxproj -> C:\Users\user\ОАИП\Git(КУРСОВАЯ)\c_electives\x64\Debug\Планирование факультативных учебных дисциплин.exe
+c1xx : fatal  error C1083: Не удается открыть файл источник: Electives.cpp: No such file or directory,
+  Mainer.cpp
+  Создание кода...
