@@ -131,7 +131,6 @@
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="Authorization.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Description.cpp" />
     <ClCompile Include="Mainer.cpp" />
   </ItemGroup>
   <ItemGroup>
