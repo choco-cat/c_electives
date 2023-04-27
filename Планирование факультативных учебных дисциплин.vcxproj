@@ -135,6 +135,9 @@
     <ClCompile Include="Mainer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ElectiveClass.h" />
+    <ClInclude Include="TeacherClass.h" />
+    <ClInclude Include="StudentClass.h" />
     <ClInclude Include="Prototypes and Classes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

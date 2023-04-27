@@ -83,7 +83,7 @@ int interfaceOfAdmin()
 			break;
 		case '5':
 		case '6':
-			tableStudent();
+			tableStudents();
 			system("pause");
 			break;
 		case '7':

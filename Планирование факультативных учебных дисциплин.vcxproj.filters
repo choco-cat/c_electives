@@ -38,5 +38,14 @@
     <ClInclude Include="Prototypes and Classes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="StudentClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TeacherClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectiveClass.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

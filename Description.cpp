@@ -35,7 +35,7 @@ int editStudent()
             system("cls");
 
             puts("\tРедактирование данных\n");
-            int quantity = tableStudent();
+            int quantity = tableStudents();
             printf("1 - Ввести номер записи для редактирования\n2 - Вернуться в меню\n");
             do {
                 vibor = _getch();
@@ -244,7 +244,7 @@ void insertStudentDataElective_4()
     scanf_s("%d", &buffer.electives[4]);
 }
 
-int tableStudent()
+int tableStudents()
 {
     bool flag = false;
     int quantity = 0;
