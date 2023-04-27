@@ -27,6 +27,7 @@ int editStudent()
     system("cls");
 
         char vibor = '0';
+        char viborField = '0';
         int quantity = 0;
         int number = 0;
 
@@ -81,12 +82,10 @@ int editStudent()
             // запись целиком
             if (vibor == '1') {
                 insertStudentData();
-                fwrite(&buffer, sizeof(buffer), 1, data);
-
             }
             else {
-               // element = ...;
-               //  insertStudentData(element);
+                viborField = menuEditStudentFields();
+                insertStudentDataField(viborField);
             }
 
             fclose(data);
@@ -100,11 +99,23 @@ int editStudent()
 char menuEditStudent()
 {
     char vibor;
-    printf("1)Изменить сразу всю запись\n2)Изменить отдельный элемент\n3)Не изменять вообще ничего\n");
+    printf("1 - Изменить сразу всю запись\n2 - Изменить отдельный элемент\n3 - Вернуться\n");
     do {
         vibor = _getch();
     } while (vibor < '1' || vibor > '3');
     return vibor;
+}
+
+char menuEditStudentFields()
+{
+    char element;
+    printf("\nВыберите поле, который нужно изменить:\n1 - Фамилия\n2 - Номер группы\n3 - Средний балл\n4 - Физика");
+    printf("\n5 - Программирование\n6 - Математика\n7 - Английский язык\n8 - Базы данных\n");
+    do {
+        element = _getch();
+    } 
+    while (element < '1' || element > '8');
+    return element;
 }
 
 int addStudent()
@@ -137,23 +148,101 @@ int addStudent()
 
 void insertStudentData()
 {
+    insertStudentDataName();
+    insertStudentDataGroup();
+    insertStudentDataAverage();
+    insertStudentDataElective_0();
+    insertStudentDataElective_1();
+    insertStudentDataElective_2();
+    insertStudentDataElective_3();
+    insertStudentDataElective_4();
+    fwrite(&buffer, sizeof(buffer), 1, data);
+}
+
+void insertStudentDataField(char symbol)
+{
+    switch (symbol) {
+    case '1': 
+        insertStudentDataName();
+        break;
+    
+    case '2': 
+        insertStudentDataGroup();
+        break;
+    
+    case '3': 
+        insertStudentDataAverage();
+        break;
+    
+    case '4': 
+        insertStudentDataElective_0();
+        break;
+    
+    case '5': 
+        insertStudentDataElective_1();
+        break;
+    
+    case '6': 
+        insertStudentDataElective_2();
+        break;
+    
+    case '7': 
+        insertStudentDataElective_3();
+        break;
+
+    case '8':
+        insertStudentDataElective_4();
+        break;
+    }
+    fwrite(&buffer, sizeof(buffer), 1, data);
+}
+
+void insertStudentDataName()
+{
     puts("Введите фамилию студента : \n");
     fflush(stdin);
     getchar();
     gets_s(buffer.name);
+}
+
+void insertStudentDataGroup()
+{
     puts("Введите номер группы студента :\n");
     scanf_s("%d", &buffer.group_number);
+}
+
+void insertStudentDataAverage()
+{
     puts("\nВведите средний балл студента.\n");
     scanf_s("%f", &buffer.average_mark);
-    //faculties(buffer);
+}
+
+void insertStudentDataElective_0()
+{
     printf("\nФизика? ");
     scanf_s("%d", &buffer.electives[0]);
+}
+
+void insertStudentDataElective_1()
+{
     printf("\nПрограммирование? ");
     scanf_s("%d", &buffer.electives[1]);
+}
+
+void insertStudentDataElective_2()
+{
     printf("\nМатематика? ");
     scanf_s("%d", &buffer.electives[2]);
+}
+
+void insertStudentDataElective_3()
+{
     printf("\nАнглийский язык? ");
     scanf_s("%d", &buffer.electives[3]);
+}
+
+void insertStudentDataElective_4()
+{
     printf("\nБазы данных? ");
     scanf_s("%d", &buffer.electives[4]);
 }
