@@ -7,15 +7,6 @@
 #include <windows.h>
 #include <stdlib.h>
 
-extern int firstMenu();
-extern int secondMenuOfAdmin();
-extern int secondMenuOfUser();
-extern int loginAdmin();
-extern int loginUser();
-extern int interfaceOfAdmin();
-extern int AddStudent();
-extern int PrintStudent();
-extern void TableStudent();
 
 struct Student
 {
@@ -23,7 +14,7 @@ struct Student
 	int age;
 	int group_number;
 	float average_mark;
-	int electives[5] = {0,0,0,0};
+	int electives[5] = { 0,0,0,0 };
 	char name[30];
 	char password[10];
 	char sex[10];
@@ -59,3 +50,16 @@ struct Student_Elective
 	int student_id;
 	int elective_id;
 };
+
+extern int firstMenu();
+extern int secondMenuOfAdmin();
+extern int secondMenuOfUser();
+extern int loginAdmin();
+extern int loginUser();
+extern int interfaceOfAdmin();
+extern int addStudent();
+extern int printStudent();
+extern int tableStudent();
+extern int editStudent();
+extern char menuEditStudent();
+extern void insertStudentData();

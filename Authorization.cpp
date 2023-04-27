@@ -70,10 +70,10 @@ int interfaceOfAdmin()
 		switch (secondMenuOfAdmin())
 		{
 		case '1':
-			AddStudent();
+			addStudent();
 			break;
 		case '2':
-			//printf("\nРедактируем запись:");
+			editStudent();
 			break;
 		case '3':
 			//printf("\nУдаляем запись:");
@@ -82,9 +82,9 @@ int interfaceOfAdmin()
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
-			//AddStudent();
 		case '6':
-			TableStudent();
+			tableStudent();
+			system("pause");
 			break;
 		case '7':
 			

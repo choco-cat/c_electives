@@ -8,24 +8,112 @@ errno_t err;
 static int count_of_student = 0;
 Student buffer;
 
-int file_open()
+int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
-    err = fopen_s(&data, "DataOfStudent.bin", "a+");
+    err = fopen_s(&data, "DataOfStudent.bin", " rb+");
+
     if (!data)
     {
         printf("Ошибка при работе с файлом (его создании или открытии) .\n");
-        return -2;
-    }
-    return 0;
-}
-
-int AddStudent()
-{
-    int n;
-    if (file_open() == -2)
-    {
         return 0;
     }
+    fseek(data, countBytes, offset);
+  return 1;
+}
+
+int editStudent()
+{
+    FILE* pFile;
+    system("cls");
+
+        char vibor = '0';
+        int quantity = 0;
+        int number = 0;
+
+        while (true) {
+            system("cls");
+
+            puts("\tРедактирование данных\n");
+            int quantity = tableStudent();
+            printf("1 - Ввести номер записи для редактирования\n2 - Вернуться в меню\n");
+            do {
+                vibor = _getch();
+            } while (vibor < '1' || vibor > '2');
+
+            if (vibor == '2') {
+                return 0;
+            }
+
+            printf("Введите номер записи, которую необходимо отредактировать: ");
+            do {
+                scanf_s("%d", &number);
+                fflush(stdin);
+                if (number < 1 || number > quantity) {
+                    printf("Записи с таким номером нет. Повторите ввод: ");
+                }
+                else
+                    break;
+            } while (true);
+
+
+            printf("Введено %d\n", number);
+            if (!file_open(sizeof(Student) * (number - 1), SEEK_SET)) {
+                return 0;
+            }
+           
+            fread(&buffer, sizeof(Student), 1, data);
+            puts("--- Выбранная запись: ---\n");
+            printf("| Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
+            printf("|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+            fclose(data);
+
+            vibor = menuEditStudent();
+
+            if (vibor == '3') {
+                fclose(data);
+                return 0;
+            }
+
+            if (!file_open(sizeof(Student) * (number - 1), SEEK_SET)) {
+                return 0;
+            }
+          
+            // запись целиком
+            if (vibor == '1') {
+                insertStudentData();
+                fwrite(&buffer, sizeof(buffer), 1, data);
+
+            }
+            else {
+               // element = ...;
+               //  insertStudentData(element);
+            }
+
+            fclose(data);
+
+            return 1;
+
+    }
+    return 1;
+}
+
+char menuEditStudent()
+{
+    char vibor;
+    printf("1)Изменить сразу всю запись\n2)Изменить отдельный элемент\n3)Не изменять вообще ничего\n");
+    do {
+        vibor = _getch();
+    } while (vibor < '1' || vibor > '3');
+    return vibor;
+}
+
+int addStudent()
+{
+    int n;
+    if (!file_open(0, SEEK_END)) {
+        return 0;
+    }
+
     printf("\n\n--------------------------------------------------\n");
     printf("| Осуществляем добавление сведений о студенте... |\n");
     printf("--------------------------------------------------\n");
@@ -35,27 +123,7 @@ int AddStudent()
     while (count < n)
     {
         printf("Запись данных %d-ого студента...\n", count + 1);
-        puts("Введите фамилию студента : \n");
-        fflush(stdin);
-        getchar();
-        gets_s(buffer.name);
-        puts("Введите номер группы студента :\n");
-        //fflush(stdin);
-        //getchar();
-        scanf_s("%d", &buffer.group_number);
-        puts("\nВведите средний балл студента.\n");
-        scanf_s("%f", &buffer.average_mark);
-        //faculties(buffer);
-        printf("\nФизика? ");
-        scanf_s("%d", &buffer.electives[0]);
-        printf("\nПрограммирование? ");
-        scanf_s("%d", &buffer.electives[1]);
-        printf("\nМатематика? ");
-        scanf_s("%d", &buffer.electives[2]);
-        printf("\nАнглийский язык? ");
-        scanf_s("%d", &buffer.electives[3]);
-        printf("\nБазы данных? ");
-        scanf_s("%d", &buffer.electives[4]);
+        insertStudentData();
         printf("\nДанные %d-ой информации были записаны в бинарный файл.\n", count + 1);
         fwrite(&buffer, sizeof(buffer), 1, data);//запись целиком
         count++;
@@ -67,13 +135,38 @@ int AddStudent()
     return 0;
 }
 
-void TableStudent()
+void insertStudentData()
+{
+    puts("Введите фамилию студента : \n");
+    fflush(stdin);
+    getchar();
+    gets_s(buffer.name);
+    puts("Введите номер группы студента :\n");
+    scanf_s("%d", &buffer.group_number);
+    puts("\nВведите средний балл студента.\n");
+    scanf_s("%f", &buffer.average_mark);
+    //faculties(buffer);
+    printf("\nФизика? ");
+    scanf_s("%d", &buffer.electives[0]);
+    printf("\nПрограммирование? ");
+    scanf_s("%d", &buffer.electives[1]);
+    printf("\nМатематика? ");
+    scanf_s("%d", &buffer.electives[2]);
+    printf("\nАнглийский язык? ");
+    scanf_s("%d", &buffer.electives[3]);
+    printf("\nБазы данных? ");
+    scanf_s("%d", &buffer.electives[4]);
+}
+
+int tableStudent()
 {
     bool flag = false;
-    if (file_open() == -2)
-    {
-        printf("Файл не был сформирован. Попросим вас его сформировать.\n");
+    int quantity = 0;
+
+    if (!file_open()) {
+        return 0;
     }
+    
     if (false) //проверить на пустоту файл
     {
         printf("\n\n--------------------------------------------------------------\n");
@@ -88,17 +181,19 @@ void TableStudent()
         printf("\n\n\n+--------------------------------------------------------------------------------------------------------------------------------+\n");
         printf("| Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
         printf("----------------------------------------------------------------------------------------------------------------------------------\n");
+       
         while (fread(&buffer, sizeof(buffer), 1, data) > 0)
         {
+            quantity++;
             printf("|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
             printf("----------------------------------------------------------------------------------------------------------------------------------\n");
         }
     }
     fclose(data);
-    system("pause");
+    return quantity;
 }
 
-void SortStudent()
+void sortStudent()
 {
     printf("--------------------------------------\n");
     printf("| СОРТИРОВКА ЗАПИСЕЙ                 |");
