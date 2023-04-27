@@ -64,8 +64,8 @@ int editStudent()
            
             fread(&buffer, sizeof(Student), 1, data);
             puts("--- Выбранная запись: ---\n");
-            printf("| Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
-            printf("|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+            printStudentTableHeader();
+            printStudentTableRow(number);
             fclose(data);
 
             vibor = menuEditStudent();
@@ -136,14 +136,11 @@ int addStudent()
         printf("Запись данных %d-ого студента...\n", count + 1);
         insertStudentData();
         printf("\nДанные %d-ой информации были записаны в бинарный файл.\n", count + 1);
-        fwrite(&buffer, sizeof(buffer), 1, data);//запись целиком
         count++;
-        stud++;
     }
     fclose(data);
     printf("\nБинарный файл, состоящий из элементов структуры был успешно сформирован.\n");
-    stud++;
-    return 0;
+    return 1;
 }
 
 void insertStudentData()
@@ -267,19 +264,29 @@ int tableStudent()
         printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
         printf(    "|                                        В системе существуют следующие сведения о студентах  :                                        |");
         printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("\n\n\n+--------------------------------------------------------------------------------------------------------------------------------+\n");
-        printf("| Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
-        printf("----------------------------------------------------------------------------------------------------------------------------------\n");
-       
+        
+        printStudentTableHeader();
+      
         while (fread(&buffer, sizeof(buffer), 1, data) > 0)
         {
-            quantity++;
-            printf("|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
-            printf("----------------------------------------------------------------------------------------------------------------------------------\n");
+            printStudentTableRow(++quantity);
         }
     }
     fclose(data);
     return quantity;
+}
+
+void printStudentTableHeader()
+{
+    printf("\n\n+------------------------------------------------------------------------------------------------------------------------------------+\n");
+    printf("| № | Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
+    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
+}
+
+void printStudentTableRow(int number)
+{
+    printf("|%3d|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", number, buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+    printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
 void sortStudent()

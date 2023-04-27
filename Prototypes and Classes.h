@@ -73,3 +73,5 @@ extern void insertStudentDataElective_1();
 extern void insertStudentDataElective_2();
 extern void insertStudentDataElective_3();
 extern void insertStudentDataElective_4();
+extern void printStudentTableHeader();
+extern void printStudentTableRow(int number);
