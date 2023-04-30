@@ -7,6 +7,9 @@ errno_t err;
 static int count_of_student = 0;
 Student buffer;
 
+FILE* phisic, * math, * english, * database, * programming;
+char PHISIC[] = "DataOfPhisic.bin";
+
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
     err = fopen_s(&data, "DataOfStudent.bin", " rb+");
@@ -168,11 +171,10 @@ void insertStudentDataField(char symbol)
     case '3':
         insertStudentDataAverage();
         break;
-
     case '4':
         insertStudentDataElective_0();
         break;
-
+  
     case '5':
         insertStudentDataElective_1();
         break;
@@ -216,30 +218,45 @@ void insertStudentDataElective_0()
 {
     printf("\nФизика? ");
     scanf_s("%d", &buffer.electives[0]);
+    if (buffer.electives[0] == 1) {
+        pushStudentToElective(buffer, 0);
+    }
 }
 
 void insertStudentDataElective_1()
 {
     printf("\nПрограммирование? ");
     scanf_s("%d", &buffer.electives[1]);
+    if (buffer.electives[1] == 1) {
+        pushStudentToElective(buffer, 1);
+    }
 }
 
 void insertStudentDataElective_2()
 {
     printf("\nМатематика? ");
     scanf_s("%d", &buffer.electives[2]);
+    if (buffer.electives[2] == 1) {
+        pushStudentToElective(buffer, 2);
+    }
 }
 
 void insertStudentDataElective_3()
 {
     printf("\nАнглийский язык? ");
     scanf_s("%d", &buffer.electives[3]);
+    if (buffer.electives[3] == 1) {
+        pushStudentToElective(buffer, 3);
+    }
 }
 
 void insertStudentDataElective_4()
 {
     printf("\nБазы данных? ");
     scanf_s("%d", &buffer.electives[4]);
+    if (buffer.electives[4] == 1) {
+        pushStudentToElective(buffer, 4);
+    }
 }
 
 int tableStudents()

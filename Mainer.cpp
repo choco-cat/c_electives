@@ -1,8 +1,11 @@
 ﻿
 #include "Prototypes and Classes.h"
 
+
+
 int main()
 {
+	FILE* phisic, * math, * english, * database, * programming;
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	printf("--------------------------------------\n");

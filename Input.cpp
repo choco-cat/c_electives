@@ -1,7 +1,7 @@
 
 #include "Prototypes and Classes.h"
 
-/*void checkName(Student obj)
+/*void inputName(Student obj)
 {
 	char symbol;
 	while (true)
@@ -21,17 +21,17 @@
 	}
 }
 
-void checkGroupNumber()
+void inputGroupNumber()
 {
 
 }
 
-void checkAverageMark()
+void inputAverageMark()
 {
 
 }
 
-void checkElective()
+void inputElective()
 {
 
 }*/

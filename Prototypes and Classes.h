@@ -10,9 +10,17 @@
 #include "TeacherClass.h"
 #include "ElectiveClass.h"
 
+
+extern int list();
+extern int look();
 extern int firstMenu();
 extern int secondMenuOfAdmin();
 extern int secondMenuOfUser();
 extern int loginAdmin();
 extern int loginUser();
 extern int interfaceOfAdmin();
+extern int AddStudent();
+//extern int PrintStudent();
+
+extern void TableStudent();
+extern void TableStudentOfElective(FILE*, char*);
