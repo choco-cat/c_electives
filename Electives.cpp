@@ -100,7 +100,7 @@ int list()
 
 void topOfElective()
 {
-    bool flag;
+    bool flag; // если списки сформированы то ничего не показываем
     char* String = ALLDATA[0][0];
     char* String1 = ALLDATA[1][0];
     char* String2 = ALLDATA[2][0];
@@ -135,7 +135,7 @@ void topOfElective()
     file_open_e(String3);
     while (fread(&buffer, sizeof(buffer), 1, file) > 0)
     {
-        if (buffer != NULL)
+        if (buffer)
         {
             top[3] = top[3] + 1;
         }
