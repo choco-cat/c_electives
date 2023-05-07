@@ -261,7 +261,6 @@ void insertStudentDataElective_4()
 
 int tableStudents()
 {
-    bool flag = false;
     int quantity = 0;
 
     if (!file_open()) {
@@ -306,12 +305,8 @@ void printStudentTableRow(int number, Student student)
 
 int sortStudents()
 {
-    FILE* fp;
     Student studentsData[MAX_COUNT_STUDENTS];
     int i, j;
-    Student temp;
-    int n = 0;
-    bool flag = false;
     int quantity = 0;
 
     if (!file_open()) {
@@ -332,24 +327,24 @@ int sortStudents()
 
         printStudentTableHeader();
 
-        while (fread(&studentsData[n], sizeof(buffer), 1, data) > 0)
+        while (fread(&studentsData[quantity], sizeof(buffer), 1, data) > 0)
         {
-            n++;
+            quantity++;
         }
 
         fclose(data);
 
-        for (i = 0; i < n - 1; i++) {
-            for (j = 0; j < n - i - 1; j++) {
+        for (i = 0; i < quantity - 1; i++) {
+            for (j = 0; j < quantity - i - 1; j++) {
                 if (studentsData[j].average_mark < studentsData[j + 1].average_mark) {
-                    temp = studentsData[j];
+                    buffer = studentsData[j];
                     studentsData[j] = studentsData[j + 1];
-                    studentsData[j + 1] = temp;
+                    studentsData[j + 1] = buffer;
                 }
             }
         }
 
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < quantity; i++) {
             printStudentTableRow(i + 1, studentsData[i]);
         }
     }
