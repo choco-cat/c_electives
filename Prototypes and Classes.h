@@ -6,10 +6,10 @@
 #include <string.h>
 #include <windows.h>
 #include <stdlib.h>
+#include "Constants.h"
 #include "StudentClass.h"
 #include "TeacherClass.h"
 #include "ElectiveClass.h"
-
 
 extern int list();
 extern int look();
@@ -22,6 +22,3 @@ extern int interfaceOfAdmin();
 extern int AddStudent();
 
 //extern int PrintStudent();
-
-extern void TableStudent();
-extern void TableStudentOfElective(FILE*, char*);

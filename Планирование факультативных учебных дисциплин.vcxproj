@@ -134,6 +134,7 @@
     <ClCompile Include="Mainer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="ElectiveClass.h" />
     <ClInclude Include="TeacherClass.h" />
     <ClInclude Include="StudentClass.h" />

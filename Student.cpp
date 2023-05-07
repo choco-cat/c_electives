@@ -1,19 +1,13 @@
 #include "Prototypes and Classes.h"
-#define MAX_COUNT_STUDENTS 1000
 
-const int SIZE_OF_ELECTIVE = 4;
-static int stud = 0;
 FILE* data;
 errno_t err;
-static int count_of_student = 0;
 Student buffer;
-
-FILE* phisic, * math, * english, * database, * programming;
-
+char STUDENTS_DATA[30] = "DataOfStudent.bin";
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
-    err = fopen_s(&data, "DataOfStudent.bin", " rb+");
+    err = fopen_s(&data, STUDENTS_DATA, " rb+");
 
     if (!data)
     {
@@ -149,11 +143,9 @@ void insertStudentData()
     insertStudentDataName();
     insertStudentDataGroup();
     insertStudentDataAverage();
-    insertStudentDataElective_0();
-    insertStudentDataElective_1();
-    insertStudentDataElective_2();
-    insertStudentDataElective_3();
-    insertStudentDataElective_4();
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+        insertStudentDataElective(i);
+    }
     fwrite(&buffer, sizeof(buffer), 1, data);
 }
 
@@ -172,23 +164,19 @@ void insertStudentDataField(char symbol)
         insertStudentDataAverage();
         break;
     case '4':
-        insertStudentDataElective_0();
+        insertStudentDataElective(0);
         break;
-  
     case '5':
-        insertStudentDataElective_1();
+        insertStudentDataElective(1);
         break;
-
     case '6':
-        insertStudentDataElective_2();
+        insertStudentDataElective(2);
         break;
-
     case '7':
-        insertStudentDataElective_3();
+        insertStudentDataElective(3);
         break;
-
     case '8':
-        insertStudentDataElective_4();
+        insertStudentDataElective(4);
         break;
     }
     fwrite(&buffer, sizeof(buffer), 1, data);
@@ -214,48 +202,14 @@ void insertStudentDataAverage()
     scanf_s("%f", &buffer.average_mark);
 }
 
-void insertStudentDataElective_0()
+void insertStudentDataElective(int electiveIndex)
 {
-    printf("\nФизика? ");
-    scanf_s("%d", &buffer.electives[0]);
-    if (buffer.electives[0] == 1) {
-        pushStudentToElective(buffer, 0);
-    }
-}
+    const char* electiveName = ALLDATA[electiveIndex][1];
 
-void insertStudentDataElective_1()
-{
-    printf("\nПрограммирование? ");
-    scanf_s("%d", &buffer.electives[1]);
-    if (buffer.electives[1] == 1) {
-        pushStudentToElective(buffer, 1);
-    }
-}
-
-void insertStudentDataElective_2()
-{
-    printf("\nМатематика? ");
-    scanf_s("%d", &buffer.electives[2]);
-    if (buffer.electives[2] == 1) {
-        pushStudentToElective(buffer, 2);
-    }
-}
-
-void insertStudentDataElective_3()
-{
-    printf("\nАнглийский язык? ");
-    scanf_s("%d", &buffer.electives[3]);
-    if (buffer.electives[3] == 1) {
-        pushStudentToElective(buffer, 3);
-    }
-}
-
-void insertStudentDataElective_4()
-{
-    printf("\nБазы данных? ");
-    scanf_s("%d", &buffer.electives[4]);
-    if (buffer.electives[4] == 1) {
-        pushStudentToElective(buffer, 4);
+    printf("\n%s? ", electiveName);
+    scanf_s("%d", &buffer.electives[electiveIndex]);
+    if (buffer.electives[electiveIndex] == 1) {
+        pushStudentToElective(buffer, electiveIndex);
     }
 }
 
