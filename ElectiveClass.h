@@ -9,5 +9,5 @@ struct Elective
 	char start_time[10];
 
 };
-
+extern void topOfElective();
 extern int file_open_e(char* NameOfFile);

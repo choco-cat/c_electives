@@ -20,6 +20,7 @@ extern int loginAdmin();
 extern int loginUser();
 extern int interfaceOfAdmin();
 extern int AddStudent();
+
 //extern int PrintStudent();
 
 extern void TableStudent();

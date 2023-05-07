@@ -97,3 +97,73 @@ int list()
     scanf_s("%d", &yourChoice);
     return yourChoice;
 }
+
+void topOfElective()
+{
+    bool flag;
+    char* String = ALLDATA[0][0];
+    char* String1 = ALLDATA[1][0];
+    char* String2 = ALLDATA[2][0];
+    char* String3 = ALLDATA[3][0];
+    char* String4 = ALLDATA[4][0];
+    int buffer;
+    char pointer[35];
+    int top[] = {0,0,0,0,0};
+    char names[5][35] = { "Физика", "Математика", "Базы данных", "Английский", "Программирование" };
+    int counter_p = 0,  counter_m = 0,  counter_d = 0,  counter_e = 0,  counter_pr = 0;
+    printf("\n\n-----------------------------------------------------\n");
+    printf("| Список ФАКУЛЬТАТИТОВ в порядке их популярности... |\n");
+    printf("-----------------------------------------------------\n");
+    file_open_e(String); 
+    while (fread(&buffer, sizeof(buffer), 1, file) > 0)
+    {
+        top[0] = top[0] + 1;
+    }
+    fclose(file);
+    file_open_e(String1); 
+    while (fread(&buffer, sizeof(buffer), 1, file) > 0)
+    {
+        top[1] = top[1] + 1;
+    }
+    fclose(file);
+    file_open_e(String2);
+    while (fread(&buffer, sizeof(buffer), 1, file) > 0)
+    {
+        top[2] = top[2] + 1;
+    }
+    fclose(file);
+    file_open_e(String3);
+    while (fread(&buffer, sizeof(buffer), 1, file) > 0)
+    {
+        if (buffer != NULL)
+        {
+            top[3] = top[3] + 1;
+        }
+    }
+    fclose(file);
+    file_open_e(String4);
+    while (fread(&buffer, sizeof(buffer), 1, file) > 0)
+    {
+        top[4] = top[4] + 1;
+    }
+    fclose(file);
+    for (register int i = 0; i < 5; i++)
+    {
+        for (register int j = 1; j < 5; j++)
+        {
+            if (top[j] > top[j - 1])
+            {
+                buffer = top[j - 1];
+                top[j - 1] = top[j];
+                top[j] = buffer;
+                pointer[30] = names[j - 1][30];
+                names[j - 1][30] = names[j][30];
+                names[j][30] = pointer[30];
+            }
+        }
+    }
+    for (register int g = 0; g < 5; g++)
+    {
+        printf("\n %d. %s (Количество желающих - %d) .\n", g + 1, names[g], top[g]);
+    }
+}

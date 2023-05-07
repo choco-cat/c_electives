@@ -6,6 +6,7 @@
 #define passAdmin "Passwords_Of_Admin.txt"
 #define passUser "Passwords_Of_User.txt"
 
+
 int firstMenu()
 {
 	char yourChoice;
@@ -92,7 +93,7 @@ int interfaceOfAdmin()
 			
 			break;
 		case '8':
-
+			topOfElective(); 
 			break;
 		case '9':
 

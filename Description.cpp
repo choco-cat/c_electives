@@ -19,6 +19,67 @@ FILE* phisic, * math, * english, * database, * programming;
 
 Teacher teacher_ph, teacher_ma, teacher_en, teacher_da, teacher_pr;
 
+void topOfElective()
+{
+    int buffer;
+    char pointer[30];
+    int top = { 0,0,0,0,0 };
+    char names[][] = { "Физика", "Математика", "Базы данных", "Английский", "Программирование" };
+    int counter_p = 0, int counter_m = 0, int counter_d = 0, int counter_e = 0, int counter_pr = 0;
+    printf("\n\n-----------------------------------------------------\n");
+    printf("| Список ФАКУЛЬТАТИТОВ в порядке их популярности... |\n");
+    printf("-----------------------------------------------------\n");
+    file_open(phisic, "DataOfPhisic.bin");
+    file_open(math, "DataOfMath.bin");
+    file_open(database, "DataOfDatabase.bin");
+    file_open(english, "DataOfEnglish.bin");
+    file_open(programming, "DataOfProgramming.bin");
+    while (fread(&buffer, sizeof(buffer), 1, phisic) > 0)
+    {
+        top[0]++;
+    }
+    while (fread(&buffer, sizeof(buffer), 1, math) > 0)
+    {
+        top[1]++;
+    }
+    while (fread(&buffer, sizeof(buffer), 1, database) > 0)
+    {
+        top[2]++;
+    }
+    while (fread(&buffer, sizeof(buffer), 1, english) > 0)
+    {
+        top[3]++;
+    }
+    while (fread(&buffer, sizeof(buffer), 1, programming) > 0)
+    {
+        top[4]++;
+    }
+    fclose(phisic);
+    fclose(math);
+    fclose(database);
+    fclose(english);
+    fclose(programming);
+    for (register int i = 0; i < 5; i++)
+    {
+        for (register int j = 1; j < 5; j++)
+        {
+            if (top[j] > top[j - 1])
+            {
+                buffer = top[j - 1];
+                top[j - 1] = top[j];
+                top[j] = buffer;
+                pointer = names[j - 1];
+                names[j - 1] = names[j];
+                names[j] = pointer;
+            }
+        }
+    }
+    for (register int g = 0; g < 5; g++)
+    {
+        printf("\n %d. %s (Количество желающих - %d) .\n", g + 1, names[g], top[g]);
+    }
+}
+
 int file_open(FILE * file, char* NameOfFile)
 {
     err = fopen_s(&file, NameOfFile, "a+");
@@ -223,3 +284,4 @@ int list()
     yourChoice = _getch();
     return yourChoice;
 }
+
