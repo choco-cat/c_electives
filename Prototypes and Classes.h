@@ -1,5 +1,6 @@
 #pragma once
 
+#include<io.h>
 #include <stdio.h>
 #include <conio.h>
 #include <iostream>

@@ -7,7 +7,7 @@ char STUDENTS_DATA[30] = "DataOfStudent.bin";
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
-    err = fopen_s(&data, STUDENTS_DATA, " rb+");
+    err = fopen_s(&data, STUDENTS_DATA, "rb+");
 
     if (!data)
     {
@@ -210,6 +210,9 @@ void insertStudentDataElective(int electiveIndex)
     scanf_s("%d", &buffer.electives[electiveIndex]);
     if (buffer.electives[electiveIndex] == 1) {
         pushStudentToElective(buffer, electiveIndex);
+    }
+    else {
+        deleteStudentFromElective(buffer.name, electiveIndex);
     }
 }
 

@@ -15,6 +15,17 @@ int file_open_e(char *NameOfFile)
     return 1;
 }
 
+int file_open(char* NameOfFile)
+{
+    fopen_s(&file, NameOfFile, "r+b");
+    if (!file)
+    {
+        printf("Ошибка при работе с файлом (его создании или открытии) .\n");
+        return -1;
+    }
+    return 1;
+}
+
 int look()
 {
     int keyOfElective = 0;
@@ -39,13 +50,55 @@ int look()
 
 int pushStudentToElective( Student student, int indexElective)
 {
-    char* firstString = ALLDATA[indexElective][0];
-    if (!file_open_e(firstString))
+    if (!file_open_e(ALLDATA[indexElective][0]))
     {
         return 0;
     }
     fwrite(&student, sizeof(student), 1, file);
     fclose(file);
+    return 1;
+}
+
+int deleteStudentFromElective(char* name_to_delete, int indexElective)
+{
+    if (!file_open(ALLDATA[indexElective][0]))
+    {
+        return 0;
+    }
+    int struct_size = sizeof(buff);
+    int deleted = 0; // флаг, который будет установлен в 1, если найдена и удалена запись
+    int position_to_delete = 0;
+    // читаем записи из файла
+    int count = 0;
+
+    while (fread(&buff, struct_size, 1, file)) {
+        count++;
+        // если имя совпадает, помечаем запись на удаление
+        if (strcmp(buff.name, name_to_delete) == 0) {
+            position_to_delete = ftell(file) - struct_size; // запоминаем позицию записи
+            printf("позиция для удаления %d\n", position_to_delete);
+            deleted = 1;
+            break;
+        }
+    }
+    
+    fseek(file, position_to_delete + struct_size, SEEK_SET);
+
+    // считываем все записи структур, начиная со следующей за удаляемой записью, на одну позицию назад
+    while (fread(&buff, struct_size, 1, file) == 1) {
+        fseek(file, (count - 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на одну позицию назад
+        fwrite(&buff, struct_size, 1, file); // записываем считанную запись на одну позицию раньше
+        fseek(file, (count + 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на следующую запись
+        count++;
+    }
+
+    // устанавливаем конец файла на место последней записи, которую нужно удалить
+    if (deleted) {
+        _chsize(_fileno(file), (count - 1) * struct_size);
+    }
+
+    fclose(file);
+    return 0;
 }
 
 void TableStudentOfElective(FILE* file, char* Elective)
