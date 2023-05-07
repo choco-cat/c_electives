@@ -24,6 +24,7 @@ struct Student_Elective
 extern int addStudent();
 extern int printStudent();
 extern int tableStudents();
+extern int sortStudents();
 extern int editStudent();
 extern char menuEditStudent();
 extern char menuEditStudentFields();
@@ -38,5 +39,5 @@ extern void insertStudentDataElective_2();
 extern void insertStudentDataElective_3();
 extern void insertStudentDataElective_4();
 extern void printStudentTableHeader();
-extern void printStudentTableRow(int number);
+extern void printStudentTableRow(int number, Student student);
 extern int pushStudentToElective(Student, int);

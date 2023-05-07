@@ -1,4 +1,5 @@
 #include "Prototypes and Classes.h"
+#define MAX_COUNT_STUDENTS 1000
 
 const int SIZE_OF_ELECTIVE = 4;
 static int stud = 0;
@@ -8,7 +9,7 @@ static int count_of_student = 0;
 Student buffer;
 
 FILE* phisic, * math, * english, * database, * programming;
-char PHISIC[] = "DataOfPhisic.bin";
+
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
@@ -25,7 +26,6 @@ int file_open(int countBytes = 0, int offset = SEEK_SET)
 
 int editStudent()
 {
-    FILE* pFile;
     system("cls");
 
     char vibor = '0';
@@ -67,7 +67,7 @@ int editStudent()
         fread(&buffer, sizeof(Student), 1, data);
         puts("--- Выбранная запись: ---\n");
         printStudentTableHeader();
-        printStudentTableRow(number);
+        printStudentTableRow(number, buffer);
         fclose(data);
 
         vibor = menuEditStudent();
@@ -284,7 +284,7 @@ int tableStudents()
 
         while (fread(&buffer, sizeof(buffer), 1, data) > 0)
         {
-            printStudentTableRow(++quantity);
+            printStudentTableRow(++quantity, buffer);
         }
     }
     fclose(data);
@@ -298,22 +298,61 @@ void printStudentTableHeader()
     printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
-void printStudentTableRow(int number)
+void printStudentTableRow(int number, Student student)
 {
-    printf("|%3d|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", number, buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+    printf("|%3d|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", number, student.name, student.group_number, student.average_mark, student.electives[0], student.electives[1], student.electives[2], student.electives[3], student.electives[4]);
     printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
-void sortStudent()
+int sortStudents()
 {
-    printf("--------------------------------------\n");
-    printf("| СОРТИРОВКА ЗАПИСЕЙ                 |");
-    printf("\n--------------------------------------");
-    while (true)
-    {
-        /*switch ()
-        {
+    FILE* fp;
+    Student studentsData[MAX_COUNT_STUDENTS];
+    int i, j;
+    Student temp;
+    int n = 0;
+    bool flag = false;
+    int quantity = 0;
 
-        }*/
+    if (!file_open()) {
+        return 0;
     }
+
+    if (false) //проверить на пустоту файл
+    {
+        printf("\n\n--------------------------------------------------------------\n");
+        printf("| В системе не были найдены какие-либо сведения о студентах. |\n");
+        printf("--------------------------------------------------------------\n");
+    }
+    else
+    {
+        printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("|                                        Отсортированный по среднему баллу спискок студентов :                                        |");
+        printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        printStudentTableHeader();
+
+        while (fread(&studentsData[n], sizeof(buffer), 1, data) > 0)
+        {
+            n++;
+        }
+
+        fclose(data);
+
+        for (i = 0; i < n - 1; i++) {
+            for (j = 0; j < n - i - 1; j++) {
+                if (studentsData[j].average_mark < studentsData[j + 1].average_mark) {
+                    temp = studentsData[j];
+                    studentsData[j] = studentsData[j + 1];
+                    studentsData[j + 1] = temp;
+                }
+            }
+        }
+
+        for (i = 0; i < n; i++) {
+            printStudentTableRow(i + 1, studentsData[i]);
+        }
+    }
+
+    return 1;
 }

@@ -80,6 +80,7 @@ int interfaceOfAdmin()
 			//printf("\nУдаляем запись:");
 			break;
 		case '4':
+			sortStudents();
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
