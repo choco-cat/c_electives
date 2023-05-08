@@ -3,6 +3,7 @@
 FILE* data;
 errno_t err;
 Student buffer;
+Student temp;
 char STUDENTS_DATA[30] = "DataOfStudent.bin";
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
@@ -11,7 +12,7 @@ int file_open(int countBytes = 0, int offset = SEEK_SET)
 
     if (!data)
     {
-        printf("ќшибка при работе с файлом (его создании или открытии) .\n");
+        printf("3ќшибка при работе с файлом (его создании или открытии) .\n");
         return 0;
     }
     fseek(data, countBytes, offset);
@@ -77,7 +78,7 @@ int editStudent()
 
         // запись целиком
         if (vibor == '1') {
-            insertStudentData();
+            insertStudentData(false);
         }
         else {
             viborField = menuEditStudentFields();
@@ -138,8 +139,12 @@ int addStudent()
     return 1;
 }
 
-void insertStudentData()
+void insertStudentData(bool newStudent)
 {
+    if (newStudent) {
+        insertStudentDataId();
+    }
+    
     insertStudentDataName();
     insertStudentDataGroup();
     insertStudentDataAverage();
@@ -180,6 +185,21 @@ void insertStudentDataField(char symbol)
     fwrite(&buffer, sizeof(buffer), 1, data);
 }
 
+void insertStudentDataId()
+{
+    fseek(data, ftell(data) - sizeof(buffer), SEEK_SET);
+
+    if (fread(&temp, sizeof(temp), 1, data)) {
+        buffer.id = temp.id + 1;
+        fseek(data, 0, SEEK_END);
+    }
+    else {
+        fseek(data,0, SEEK_END);
+        buffer.id = 1;
+    }
+    //printf("Id студента %d", buffer.id);
+}
+
 void insertStudentDataName()
 {
     puts("¬ведите фамилию студента : \n");
@@ -207,10 +227,10 @@ void insertStudentDataElective(int electiveIndex)
     printf("\n%s? ", electiveName);
     scanf_s("%d", &buffer.electives[electiveIndex]);
     if (buffer.electives[electiveIndex] == 1) {
-        pushStudentToElective(buffer, electiveIndex);
+        pushStudentToElective(buffer.id, electiveIndex);
     }
     else {
-        deleteStudentFromElective(buffer.name, electiveIndex);
+        deleteStudentFromElective(buffer.id, electiveIndex);
     }
 }
 

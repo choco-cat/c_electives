@@ -21,5 +21,6 @@ extern int loginAdmin();
 extern int loginUser();
 extern int interfaceOfAdmin();
 extern int AddStudent();
+extern int contains(int*, int, int);
 
 //extern int PrintStudent();

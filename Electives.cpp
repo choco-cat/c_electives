@@ -9,7 +9,7 @@ int file_open_e(char *NameOfFile)
     fopen_s(&file, NameOfFile, "a+");
     if (!file)
     {
-        printf("Ошибка при работе с файлом (его создании или открытии) .\n");
+        printf("!Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
         return -1;
     }
     return 1;
@@ -20,7 +20,7 @@ int file_open(char* NameOfFile)
     fopen_s(&file, NameOfFile, "r+b");
     if (!file)
     {
-        printf("Ошибка при работе с файлом (его создании или открытии) .\n");
+        printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
         return -1;
     }
     return 1;
@@ -29,52 +29,111 @@ int file_open(char* NameOfFile)
 int look()
 {
     int keyOfElective = 0;
+    //int arrIds[10000]; // массив для хранения чисел
+    int n; // количество считанных чисел
+    int id;
+    int* arrIds = (int*)malloc(1000 * sizeof(int)); // выделение памяти под массив размером 1000 элементов
+     
     printf("--------------------------------------------------------------\n");
     printf("| Выберите факультатив, чьих студентов желаете просмотреть : |");
     printf("\n--------------------------------------------------------------");
 
     do {
         int keyOfElective = list();
+        n = 0;
+        memset(arrIds, 0, sizeof(arrIds)); // заполнение массива нулями
+        char* electiveFile = ALLDATA[keyOfElective - 1][0];
+        char* electiveName = ALLDATA[keyOfElective - 1][1];
         if (keyOfElective > 0 && keyOfElective <= SIZE_OF_ELECTIVE) {
-            char* electiveFile = ALLDATA[keyOfElective - 1][0];
-            char* electiveName = ALLDATA[keyOfElective - 1][1];
             if (!file_open_e(electiveFile))
             {
-                return 0;
+                continue;
             }
-            TableStudentOfElective(file, electiveName);
+
+            while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
+                n++;
+            }
             fclose(file);
+
+            TableStudentOfElective(arrIds, electiveName, n);
         }
     } while (keyOfElective != 0);
+    return 1;
 }
 
-int pushStudentToElective( Student student, int indexElective)
+int pushStudentToElective(int studentId, int indexElective)
 {
+    int id;
     if (!file_open_e(ALLDATA[indexElective][0]))
     {
         return 0;
     }
-    fwrite(&student, sizeof(student), 1, file);
+    while (fscanf_s(file, "%d", &id) != EOF) {
+        if (id == studentId) {
+            // Нашли id, студент уже записан на факультатив
+            fclose(file);
+            return 0;
+        }
+    }
+
+    fprintf(file, "%d\n", studentId); // Записываем число в файл
     fclose(file);
     return 1;
 }
 
-int deleteStudentFromElective(char* name_to_delete, int indexElective)
+int deleteStudentFromElective(int studentId, int indexElective)
 {
+    FILE* temp_file;
+    fopen_s(&temp_file, "temp.bin", "w");
+
     if (!file_open(ALLDATA[indexElective][0]))
     {
         return 0;
     }
     int struct_size = sizeof(buff);
-    int deleted = 0; // флаг, который будет установлен в 1, если найдена и удалена запись
-    int position_to_delete = 0;
+    int num_deleted = 0; // флаг, который будет установлен в 1, если найдена и удалена запись
+    int id;
     // читаем записи из файла
     int count = 0;
 
-    while (fread(&buff, struct_size, 1, file)) {
+    // Читаем по одному числу из входного файла
+    while (fscanf_s(file, "%d", &id) != EOF) {
+        if (id == studentId) {
+            // Нашли число, которое нужно удалить
+            num_deleted++;
+            continue;  // Пропускаем запись числа во временный файл
+        }
+
+        // Записываем числа, которые не нужно удалять, во временный файл
+        fprintf(temp_file, "%d\n", id);
+    }
+
+    fclose(file);
+    fclose(temp_file);
+
+    // Заменяем входной файл временным
+    if (num_deleted > 0) {
+        if (remove(ALLDATA[indexElective][0]) != 0) {
+            perror("Не удалось удалить входной файл");
+            return -1;
+        }
+        if (rename("temp.bin", ALLDATA[indexElective][0]) != 0) {
+            perror("Не удалось переименовать временный файл");
+            return -1;
+        }
+    }
+    else {
+        // Если ни одно число не было удалено, удаляем временный файл
+        remove("temp.bin");
+    }
+
+    //printf("Удалено чисел: %d\n", num_deleted);
+
+    
+    /*while (fread(&buff, struct_size, 1, file)) {
         count++;
         // если имя совпадает, помечаем запись на удаление
-        if (strcmp(buff.name, name_to_delete) == 0) {
+        if (id == studentId) {
             position_to_delete = ftell(file) - struct_size; // запоминаем позицию записи
             printf("позиция для удаления %d\n", position_to_delete);
             deleted = 1;
@@ -96,15 +155,18 @@ int deleteStudentFromElective(char* name_to_delete, int indexElective)
     if (deleted) {
         _chsize(_fileno(file), (count - 1) * struct_size);
     }
-
-    fclose(file);
+    
+    fclose(file); */
     return 0;
 }
 
-void TableStudentOfElective(FILE* file, char* Elective)
+void TableStudentOfElective(int* arrIds, char* electiveName, int size)
 {
-    bool flag = false;
-   
+    if (!file_open(STUDENTS_DATA))
+    {
+        return;
+    }
+
     if (false) //проверить на пустоту файл
     {
         printf("\n\n-----------------------------------------------------------------------------------\n");
@@ -114,18 +176,30 @@ void TableStudentOfElective(FILE* file, char* Elective)
     else
     {
         printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("|                                        Факультатив *%15s* ( Преподаватель : %15s )  :                                                |\n", Elective, teacher_ph.name);
+        printf("|                                        Факультатив *%15s* ( Преподаватель : %15s )  :                                                |\n", electiveName, teacher_ph.name);
         printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("\n\n\n+--------------------------------------------------------------------------------------------------------------------------------+\n");
-        printf("| Фамилия студента |  Номер группы |  Средний балл  | Физика | Программирование |  Математика  | Английский язык |  Базы данных  |\n");
-        printf("----------------------------------------------------------------------------------------------------------------------------------\n");
+        
+        printStudentTableHeader();
+        int couner = 0;
         while (fread(&buff, sizeof(buff), 1, file) > 0)
         {
-            printf("|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", buff.name, buff.group_number, buff.average_mark, buff.electives[0], buff.electives[1], buff.electives[2], buff.electives[3], buff.electives[4]);
-            printf("----------------------------------------------------------------------------------------------------------------------------------\n");
+            if (contains(arrIds, size, buff.id)) {
+                couner++;
+                printStudentTableRow(couner, buff);
+            }
         }
     }
+    fclose(file);
     system("pause");
+}
+
+int contains(int arr[], int size, int x) {
+    for (int i = 0; i <= size; i++) {
+        if (arr[i] == x) {
+            return 1; // массив содержит число x
+        }
+    }
+    return 0; // массив не содержит число x
 }
 
 int list()
@@ -145,18 +219,29 @@ void topOfElective()
 {
     int num_records[SIZE_OF_ELECTIVE][2];
     int buffer[2];
+    char line[5];
+    int num_lines;
     printf("| Список ФАКУЛЬТАТИТОВ в порядке их популярности... |\n");
     printf("-----------------------------------------------------\n");
 
+   
     for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+        num_lines = 0;
         if (!file_open_e(ALLDATA[i][0]))
         {
             continue;
         }
-        fseek(file, 0, SEEK_END); // перейти в конец файла
+        
+        while (fgets(line, sizeof(line), file) != NULL) {
+            num_lines++;
+        }
+        num_records[i][0] = i;
+        num_records[i][1] = num_lines; // вычислить количество записей
+    
+     /*   fseek(file, 0, SEEK_END); // перейти в конец файла
         long file_size = ftell(file); // получить размер файла в байтах
         num_records[i][0] = i;
-        num_records[i][1] = file_size / sizeof(buff); // вычислить количество записей
+        num_records[i][1] = file_size / sizeof(buff); // вычислить количество записей */
         fclose(file);
     }
 
