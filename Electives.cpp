@@ -6,13 +6,16 @@ Teacher teacher_ph, teacher_ma, teacher_en, teacher_da, teacher_pr;
 
 int file_open(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
 {
-   fopen_s(&file, NameOfFile, "a+");
+   fopen_s(&file, NameOfFile, "rb+");
 
     if (!file)
     {
-        printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
+        if (!file) {
+            printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
+        }
         return 0;
     }
+
     fseek(file, countBytes, offset);
     return 1;
 }
