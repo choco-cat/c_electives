@@ -10,4 +10,4 @@ struct Elective
 
 };
 extern void topOfElective();
-extern int file_open_e(char* NameOfFile);
+extern int file_open_e(char*);

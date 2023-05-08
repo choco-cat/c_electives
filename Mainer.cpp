@@ -1,5 +1,4 @@
-﻿
-#include "Prototypes and Classes.h"
+﻿#include "Prototypes and Classes.h"
 
 /*Для формирования факультативных занятий необходимо обработать информацию следующего вида: 
 ФИО студента, номер группы, средний балл успеваемости, пять возможных для факультативного посещения дисциплин. 
@@ -10,8 +9,14 @@
 Общее для всех вариантов задание: реализовать авторизацию для входа в систему, функционал администратора 
 */
 
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+//SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+
+
+
 int main()
 {
+	system("color F0");
 	FILE* phisic, * math, * english, * database, * programming;
 	int choice;
 	SetConsoleCP(1251);

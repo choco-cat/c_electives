@@ -1,18 +1,13 @@
 #include "Prototypes and Classes.h"
 
-const int SIZE_OF_ELECTIVE = 4;
-static int stud = 0;
 FILE* data;
 errno_t err;
-static int count_of_student = 0;
 Student buffer;
-
-FILE* phisic, * math, * english, * database, * programming;
-char PHISIC[] = "DataOfPhisic.bin";
+char STUDENTS_DATA[30] = "DataOfStudent.bin";
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
-    err = fopen_s(&data, "DataOfStudent.bin", " rb+");
+    err = fopen_s(&data, STUDENTS_DATA, "rb+");
 
     if (!data)
     {
@@ -25,7 +20,6 @@ int file_open(int countBytes = 0, int offset = SEEK_SET)
 
 int editStudent()
 {
-    FILE* pFile;
     system("cls");
 
     char vibor = '0';
@@ -67,7 +61,7 @@ int editStudent()
         fread(&buffer, sizeof(Student), 1, data);
         puts("--- Выбранная запись: ---\n");
         printStudentTableHeader();
-        printStudentTableRow(number);
+        printStudentTableRow(number, buffer);
         fclose(data);
 
         vibor = menuEditStudent();
@@ -149,11 +143,9 @@ void insertStudentData()
     insertStudentDataName();
     insertStudentDataGroup();
     insertStudentDataAverage();
-    insertStudentDataElective_0();
-    insertStudentDataElective_1();
-    insertStudentDataElective_2();
-    insertStudentDataElective_3();
-    insertStudentDataElective_4();
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+        insertStudentDataElective(i);
+    }
     fwrite(&buffer, sizeof(buffer), 1, data);
 }
 
@@ -163,32 +155,26 @@ void insertStudentDataField(char symbol)
     case '1':
         insertStudentDataName();
         break;
-
     case '2':
         insertStudentDataGroup();
         break;
-
     case '3':
         insertStudentDataAverage();
         break;
     case '4':
-        insertStudentDataElective_0();
+        insertStudentDataElective(0);
         break;
-  
     case '5':
-        insertStudentDataElective_1();
+        insertStudentDataElective(1);
         break;
-
     case '6':
-        insertStudentDataElective_2();
+        insertStudentDataElective(2);
         break;
-
     case '7':
-        insertStudentDataElective_3();
+        insertStudentDataElective(3);
         break;
-
     case '8':
-        insertStudentDataElective_4();
+        insertStudentDataElective(4);
         break;
     }
     fwrite(&buffer, sizeof(buffer), 1, data);
@@ -214,54 +200,22 @@ void insertStudentDataAverage()
     scanf_s("%f", &buffer.average_mark);
 }
 
-void insertStudentDataElective_0()
+void insertStudentDataElective(int electiveIndex)
 {
-    printf("\nФизика? ");
-    scanf_s("%d", &buffer.electives[0]);
-    if (buffer.electives[0] == 1) {
-        pushStudentToElective(buffer, 0);
-    }
-}
+    const char* electiveName = ALLDATA[electiveIndex][1];
 
-void insertStudentDataElective_1()
-{
-    printf("\nПрограммирование? ");
-    scanf_s("%d", &buffer.electives[1]);
-    if (buffer.electives[1] == 1) {
-        pushStudentToElective(buffer, 1);
+    printf("\n%s? ", electiveName);
+    scanf_s("%d", &buffer.electives[electiveIndex]);
+    if (buffer.electives[electiveIndex] == 1) {
+        pushStudentToElective(buffer, electiveIndex);
     }
-}
-
-void insertStudentDataElective_2()
-{
-    printf("\nМатематика? ");
-    scanf_s("%d", &buffer.electives[2]);
-    if (buffer.electives[2] == 1) {
-        pushStudentToElective(buffer, 2);
-    }
-}
-
-void insertStudentDataElective_3()
-{
-    printf("\nАнглийский язык? ");
-    scanf_s("%d", &buffer.electives[3]);
-    if (buffer.electives[3] == 1) {
-        pushStudentToElective(buffer, 3);
-    }
-}
-
-void insertStudentDataElective_4()
-{
-    printf("\nБазы данных? ");
-    scanf_s("%d", &buffer.electives[4]);
-    if (buffer.electives[4] == 1) {
-        pushStudentToElective(buffer, 4);
+    else {
+        deleteStudentFromElective(buffer.name, electiveIndex);
     }
 }
 
 int tableStudents()
 {
-    bool flag = false;
     int quantity = 0;
 
     if (!file_open()) {
@@ -284,7 +238,7 @@ int tableStudents()
 
         while (fread(&buffer, sizeof(buffer), 1, data) > 0)
         {
-            printStudentTableRow(++quantity);
+            printStudentTableRow(++quantity, buffer);
         }
     }
     fclose(data);
@@ -298,22 +252,57 @@ void printStudentTableHeader()
     printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
-void printStudentTableRow(int number)
+void printStudentTableRow(int number, Student student)
 {
-    printf("|%3d|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", number, buffer.name, buffer.group_number, buffer.average_mark, buffer.electives[0], buffer.electives[1], buffer.electives[2], buffer.electives[3], buffer.electives[4]);
+    printf("|%3d|   %15s|   %12d| %15.3f|    %4d|             %5d|    %10d|   %14d|        %7d|\n", number, student.name, student.group_number, student.average_mark, student.electives[0], student.electives[1], student.electives[2], student.electives[3], student.electives[4]);
     printf("--------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
-void sortStudentByAvarageMark()
+int sortStudents()
 {
-    printf("--------------------------------------\n");
-    printf("| СОРТИРОВКА ЗАПИСЕЙ                 |");
-    printf("\n--------------------------------------");
-    while (true)
-    {
-        /*switch ()
-        {
+    Student studentsData[MAX_COUNT_STUDENTS];
+    int i, j;
+    int quantity = 0;
 
-        }*/
+    if (!file_open()) {
+        return 0;
     }
+
+    if (false) //проверить на пустоту файл
+    {
+        printf("\n\n--------------------------------------------------------------\n");
+        printf("| В системе не были найдены какие-либо сведения о студентах. |\n");
+        printf("--------------------------------------------------------------\n");
+    }
+    else
+    {
+        printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("|                                         Отсортированный по среднему баллу спискок студентов :                                        |");
+        printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+
+        printStudentTableHeader();
+
+        while (fread(&studentsData[quantity], sizeof(buffer), 1, data) > 0)
+        {
+            quantity++;
+        }
+
+        fclose(data);
+
+        for (i = 0; i < quantity - 1; i++) {
+            for (j = 0; j < quantity - i - 1; j++) {
+                if (studentsData[j].average_mark < studentsData[j + 1].average_mark) {
+                    buffer = studentsData[j];
+                    studentsData[j] = studentsData[j + 1];
+                    studentsData[j + 1] = buffer;
+                }
+            }
+        }
+
+        for (i = 0; i < quantity; i++) {
+            printStudentTableRow(i + 1, studentsData[i]);
+        }
+    }
+
+    return 1;
 }

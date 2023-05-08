@@ -6,6 +6,8 @@
 #define passAdmin "Passwords_Of_Admin.txt"
 #define passUser "Passwords_Of_User.txt"
 
+HANDLE hConsole1 = GetStdHandle(STD_OUTPUT_HANDLE);
+
 void infoOfAuthor();
 
 int firstMenu()
@@ -26,22 +28,40 @@ int firstMenu()
 int secondMenuOfAdmin()
 {
 	char yourChoice;
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
 	printf("\n\n-------------------------------\n");
 	printf(    "| Меню АДМИНИСТРАТОРА         |\n");
 	printf("-------------------------------\n");
-	printf("\n**********************************************************************************\n*\n");
-	printf("*   + - редактирование сведений о преподавателе факультативе. \n");
-	printf("*   1 - добавление личных данных студента в рейтинговую систему. (РАБОТАЕТ) \n");
-	printf("*   2 - редактирование личных данных определённого студента. (РАБОТАЕТ) \n");
-	printf("*   3 - удаление личных данных определённого студента. \n");
-	printf("*   4 - сортировка студентов по среднему баллу. \n");
-	printf("*   5 - просмотр всех студентов, желающих записаться на определённый факультатив. (РАБОТАЕТ)\n");
-	printf("*   6 - вывод на экран списка персональных данных зарегистрированных студентов. (РАБОТАЕТ) \n");
-	printf("*   7 - составить и вывести списки зачисленных определённого факультатива. \n");
-	printf("*   8 - вывести список факультативов в порядке их пополулярности. (РАБОТАЕТ +-)\n");
-	printf("*   9 - выход из учётной записи. (РАБОТАЕТ)\n");
-	printf("*   0 - выход из программы. (РАБОТАЕТ)\n");
-	printf("*   ? - техподдержка ПО. (РАБОТАЕТ)\n*");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf( "\n**********************************************************************************\n");
+	printf(   "*                                                                                *\n");
+	printf(   "*   + - редактирование сведений о преподавателе факультативе.                    *\n");
+	printf(   "*   1 - добавление личных данных студента в рейтинговую систему.                 *\n");
+	printf(   "*   2 - редактирование личных данных определённого студента.                     *\n");
+	printf(   "*   3 - удаление личных данных определённого студента.                           *\n");
+	printf(   "*                                                                                *\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	printf(   "|                                                                                |\n");
+	printf(   "|   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    |\n");
+	printf(   "|                           ИНДИВИДУЛЬНОЕ ЗАДАНИЕ  :                             |\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf("*                                                                                *\n");
+	printf(   "*   4 - сортировка студентов по среднему баллу.                                  *\n");
+	printf(   "*   5 - просмотр всех студентов, желающих записаться на определённый факультатив.*\n");
+	printf(   "*   6 - вывод на экран списка персональных данных зарегистрированных студентов.  *\n");
+	printf(   "*   7 - составить и вывести списки зачисленных определённого факультатива.       *\n");
+	printf(   "*   8 - вывести список факультативов в порядке их пополулярности.                *\n");
+	printf("*                                                                                *\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	printf(   "|                                                                                |\n");
+	printf(   "|   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    |\n");
+	printf(   "|                                                                                |\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf(   "*                                                                                *\n");
+	printf(   "*   9 - выход из учётной записи.                                                 *\n");
+	printf(   "*   0 - выход из программы.                                                      *\n");
+	printf(   "*   ? - техподдержка ПО.                                                         *\n");
+	printf(   "*                                                                                *");
 	printf("\n**********************************************************************************\n");
 	yourChoice = _getch();
 	return yourChoice;
@@ -67,6 +87,9 @@ int secondMenuOfUser()
 
 int interfaceOfAdmin()
 {
+	system("cls");
+	system("color 0F");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
 	printf("\nВы успешно авторизовались в качестве админстратора, теперь вам доступен список администраторских функций.");
 	while (1)
 	{
@@ -82,6 +105,7 @@ int interfaceOfAdmin()
 			//printf("\nУдаляем запись:");
 			break;
 		case '4':
+			sortStudents();
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
