@@ -16,11 +16,13 @@ int firstMenu()
 	printf( "\n\n-------------------------------\n");
 	printf( "| Осуществляем авторизацию... |\n");
 	printf( "-------------------------------\n");
-	printf( "\n***********************************************\n*\n");
-	printf( "*   1 - авторизация в качестве администратора. \n");
-	printf( "*   2 - авторизация в качестве пользователя. \n");
-	printf( "*   3 - выход из программы. \n*");
-	printf( "\n***********************************************\n");
+	printf( "\n**************************************************\n");
+	printf(   "*                                                *\n");
+	printf(   "*   1 - авторизация в качестве администратора.   *\n");
+	printf(   "*   2 - авторизация в качестве пользователя.     *\n");
+	printf(   "*   3 - выход из программы.                      *\n");
+	printf(   "*                                                *");
+	printf( "\n**************************************************\n");
 	yourChoice =_getch();
 	return yourChoice;
 }
@@ -28,6 +30,7 @@ int firstMenu()
 int secondMenuOfAdmin()
 {
 	char yourChoice;
+	system("cls");
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
 	printf("\n\n-------------------------------\n");
 	printf(    "| Меню АДМИНИСТРАТОРА         |\n");
@@ -63,6 +66,7 @@ int secondMenuOfAdmin()
 	printf(   "*   ? - техподдержка ПО.                                                         *\n");
 	printf(   "*                                                                                *");
 	printf("\n**********************************************************************************\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	yourChoice = _getch();
 	return yourChoice;
 }
@@ -103,21 +107,19 @@ int interfaceOfAdmin()
 			break;
 		case '3':
 			deleteStudents();
-			//printf("\nУдаляем запись:");
 			break;
 		case '4':
 			sortStudents();
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
-			lookElecive();
+			lookElective();
 			break;
 		case '6':
 			tableStudents();
-			system("pause");
 			break;
 		case '7':
-			
+			MakeListOfElective();
 			break;
 		case '8':
 			topOfElective(); 
@@ -132,7 +134,11 @@ int interfaceOfAdmin()
 			infoOfAuthor();
 			break;
 		default:
-			printf("\nБыл введён некорректный номер подзадачи. Ожидается корректый номер сущесутвующей задачи.");
+			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
+			printf("\nБыл введён некорректный номер подзадачи. Ожидается корректый номер сущесутвующей задачи.\n\n");
+			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			system("pause");
+			system("cls");
 			break;
 		}
 	}
@@ -342,21 +348,40 @@ int loginUser() {
 
 void infoOfAuthor()
 {
+
 	system("cls");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
 	printf("\n\n--------------------------------------------\n");
 	printf(    "| ПО было разработано студентом 1 курса... |\n");
 	printf(    "--------------------------------------------\n");
-	printf("\n\n---------------------------------------------\n");
-	printf(    "| Разработчик : ПАНФИЛЕНКО СТАНИСЛАВ ИГОРЕВИЧ |\n");
-	printf(    "-----------------------------------------------\n");
-	printf("\n\n----------------------------------------------------\n");
-	printf(    "| Обратная связь : stasa_stasa_stasa_stasa@mail.ru |\n");
-	printf(    "----------------------------------------------------\n");
+	printf("\n\n-----------------------------------------------\n|");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf(" Разработчик : ");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	printf(	"ПАНФИЛЕНКО СТАНИСЛАВ ИГОРЕВИЧ ");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf(    "|\n-----------------------------------------------\n");
+	printf("\n\n----------------------------------------------------\n|");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf(" Обратная связь : ");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	printf(	"stasa_stasa_stasa_stasa@mail.ru");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf(    " |\n----------------------------------------------------\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
 	printf("\n\n------------------------------------------------------------------------------------------------------\n");
 	printf(    "| При некорректной работе программы отправьте письмо на электронную почту с заданной вами проблемой. |\n");
 	printf(    "------------------------------------------------------------------------------------------------------\n");
-	printf("\n\n--------------------------\n");
-	printf(    "| Версия ПО : 1.0 (BETA) |\n");
-	printf(    "--------------------------\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf("\n\n--------------------------\n|");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf(" Версия ПО : ");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	printf("1.0 (BETA) ");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf(    "|\n--------------------------\n\n\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	system("pause");
+	system("cls");
+
 }

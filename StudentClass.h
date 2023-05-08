@@ -3,15 +3,10 @@
 struct Student
 {
 	int id;
-	int age;
 	int group_number;
 	float average_mark;
 	int electives[5] = { 0,0,0,0,0 };
 	char name[30];
-	char password[10];
-	char sex[10];
-	char phone_number[30];
-	char faculty[30];
 };
 
 struct Student_Elective
@@ -40,3 +35,4 @@ extern void printStudentTableHeader();
 extern void printStudentTableRow(int, Student);
 extern int deleteStudents();
 extern int deleteStudent(int);
+extern int MakeListOfElective();

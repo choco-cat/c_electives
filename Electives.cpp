@@ -3,6 +3,7 @@ char ALLDATA[6][2][30] = { {"DataOfPhisic.bin", "Физика"}, {"DataOfProgramming.b
 Student buff;
 FILE* file;
 Teacher teacher_ph, teacher_ma, teacher_en, teacher_da, teacher_pr;
+HANDLE hConsole2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int file_open(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
 {
@@ -20,17 +21,19 @@ int file_open(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
     return 1;
 }
 
-int lookElecive()
+int lookElective()
 {
+    system("cls");
     int keyOfElective = 0;
     int n; // количество считанных чисел
     int id;
     int* arrIds = (int*)malloc(1000 * sizeof(int)); // выделение памяти под массив размером 1000 элементов
      
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_BLUE);
     printf("--------------------------------------------------------------\n");
     printf("| Выберите факультатив, чьих студентов желаете просмотреть : |");
     printf("\n--------------------------------------------------------------");
-
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     do {
         int keyOfElective = list();
         n = 0;
@@ -168,13 +171,15 @@ int contains(int arr[], int size, int x) {
 
 int list()
 {
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_MAGENTA);
     int yourChoice;
-    printf("\n**********************************************************************************\n");
+    printf("\n\n\n********************************\n*\n");
     for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
-        printf("*   %d - %s. \n", i + 1,  ALLDATA[i][1]);
+        printf("*   %d - %s.                                \n", i + 1,  ALLDATA[i][1]);
     }
-    printf("*   0 - выход из меню. \n*");
-    printf("\n**********************************************************************************\n");
+    printf("*   0 - выход в ОСНОВНОЕ меню.                   \n*");
+    printf(    "\n********************************\n");
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     scanf_s("%d", &yourChoice);
     return yourChoice;
 }
@@ -185,10 +190,12 @@ void topOfElective()
     int buffer[2];
     char line[5];
     int num_lines;
+    system("cls");
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_BLUE);
+    printf("\n\n-----------------------------------------------------\n");
     printf("| Список ФАКУЛЬТАТИТОВ в порядке их популярности... |\n");
     printf("-----------------------------------------------------\n");
-
-   
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
         num_lines = 0;
         if (!file_open(ALLDATA[i][0]))
@@ -204,9 +211,12 @@ void topOfElective()
         fclose(file);
     }
 
-    for (int i = 0; i < SIZE_OF_ELECTIVE - 1; i++) {
-        for (int j = 0; j < SIZE_OF_ELECTIVE - i - 1; j++) {
-            if (num_records[j][1] < num_records[j + 1][1]) {
+    for (int i = 0; i < SIZE_OF_ELECTIVE - 1; i++) 
+    {
+        for (int j = 0; j < SIZE_OF_ELECTIVE - i - 1; j++)
+        {
+            if (num_records[j][1] < num_records[j + 1][1]) 
+            {
                 buffer[0] = num_records[j][0];
                 buffer[1] = num_records[j][1];
                 num_records[j][0] = num_records[j + 1][0];
@@ -216,8 +226,14 @@ void topOfElective()
             }
         }
     }
-
-    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+    SetConsoleTextAttribute(hConsole2, FOREGROUND_RED);
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) 
+    {
+        if (i == 1) SetConsoleTextAttribute(hConsole2, FOREGROUND_GREEN);
+        if (i == 2) SetConsoleTextAttribute(hConsole2, FOREGROUND_CYAN);
+        if (i > 2)  SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
         printf("\n %d. %s (Количество желающих - %d).\n", i + 1, ALLDATA[num_records[i][0]][1], num_records[i][1]);
     }
+    printf("\n\n");
+    system("pause");
 }

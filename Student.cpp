@@ -5,6 +5,7 @@ errno_t err;
 Student buffer;
 Student temp;
 char STUDENTS_DATA[30] = "DataOfStudent.bin";
+HANDLE hConsole3 = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int file_open(int countBytes = 0, int offset = SEEK_SET)
 {
@@ -157,7 +158,6 @@ int addStudent()
     if (!file_open(0, SEEK_END)) {
         return 0;
     }
-
     printf("\n\n--------------------------------------------------\n");
     printf("| Осуществляем добавление сведений о студенте... |\n");
     printf("--------------------------------------------------\n");
@@ -273,12 +273,13 @@ void insertStudentDataElective(int electiveIndex)
 
 int tableStudents()
 {
+    SetConsoleTextAttribute(hConsole3, FOREGROUND_BLUE);
     int quantity = 0;
 
-    if (!file_open()) {
+    if (!file_open()) 
+    {
         return 0;
     }
-
     if (false) //проверить на пустоту файл
     {
         printf("\n\n--------------------------------------------------------------\n");
@@ -287,16 +288,19 @@ int tableStudents()
     }
     else
     {
-        printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("|                                        В системе существуют следующие сведения о студентах  :                                        |");
-        printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-
+        system("cls");
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_MAGENTA);
+        printf("\n\n--------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf(   "|                                        В системе существуют следующие сведения о студентах  :                                      |\n");
+        printf(    "--------------------------------------------------------------------------------------------------------------------------------------\n");
         printStudentTableHeader();
-
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_CYAN);
         while (fread(&buffer, sizeof(buffer), 1, data) > 0)
         {
             printStudentTableRow(++quantity, buffer);
         }
+        system("pause");
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     }
     fclose(data);
     return quantity;
@@ -334,7 +338,7 @@ int sortStudents()
     else
     {
         printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("|                                         Отсортированный по среднему баллу спискок студентов :                                        |");
+        printf(    "|                                         Отсортированный по среднему баллу спискок ВСЕХ студентов :                                   |");
         printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
 
         printStudentTableHeader();
@@ -359,7 +363,13 @@ int sortStudents()
         for (i = 0; i < quantity; i++) {
             printStudentTableRow(i + 1, studentsData[i]);
         }
+        system("pause");
     }
 
     return 1;
+}
+
+int makeListOfElective()
+{
+
 }

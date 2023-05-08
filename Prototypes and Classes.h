@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 #include<io.h>
 #include <stdio.h>
 #include <conio.h>
@@ -13,7 +15,7 @@
 #include "ElectiveClass.h"
 
 extern int list();
-extern int lookElecive();
+extern int lookElective();
 extern int firstMenu();
 extern int secondMenuOfAdmin();
 extern int secondMenuOfUser();
