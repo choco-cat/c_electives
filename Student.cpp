@@ -155,11 +155,9 @@ void insertStudentDataField(char symbol)
     case '1':
         insertStudentDataName();
         break;
-
     case '2':
         insertStudentDataGroup();
         break;
-
     case '3':
         insertStudentDataAverage();
         break;
