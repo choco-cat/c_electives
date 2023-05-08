@@ -29,7 +29,6 @@ int file_open(char* NameOfFile)
 int look()
 {
     int keyOfElective = 0;
-    //int arrIds[10000]; // массив дл€ хранени€ чисел
     int n; // количество считанных чисел
     int id;
     int* arrIds = (int*)malloc(1000 * sizeof(int)); // выделение пам€ти под массив размером 1000 элементов
@@ -68,6 +67,7 @@ int pushStudentToElective(int studentId, int indexElective)
     {
         return 0;
     }
+
     while (fscanf_s(file, "%d", &id) != EOF) {
         if (id == studentId) {
             // Ќашли id, студент уже записан на факультатив
