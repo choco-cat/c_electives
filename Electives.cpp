@@ -4,29 +4,23 @@ Student buff;
 FILE* file;
 Teacher teacher_ph, teacher_ma, teacher_en, teacher_da, teacher_pr;
 
-int file_open_e(char *NameOfFile)
+int file_open(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
 {
-    fopen_s(&file, NameOfFile, "a+");
+   fopen_s(&file, NameOfFile, "rb+");
+
     if (!file)
     {
-        printf("!Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
-        return -1;
+        fopen_s(&file, NameOfFile, "a+");
+        if (!file) {
+            printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
+        }
+        return 0;
     }
+    fseek(file, countBytes, offset);
     return 1;
 }
 
-int file_open(char* NameOfFile)
-{
-    fopen_s(&file, NameOfFile, "r+b");
-    if (!file)
-    {
-        printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
-        return -1;
-    }
-    return 1;
-}
-
-int look()
+int lookElecive()
 {
     int keyOfElective = 0;
     int n; // количество считанных чисел
@@ -44,7 +38,7 @@ int look()
         char* electiveFile = ALLDATA[keyOfElective - 1][0];
         char* electiveName = ALLDATA[keyOfElective - 1][1];
         if (keyOfElective > 0 && keyOfElective <= SIZE_OF_ELECTIVE) {
-            if (!file_open_e(electiveFile))
+            if (!file_open(electiveFile))
             {
                 continue;
             }
@@ -63,7 +57,7 @@ int look()
 int pushStudentToElective(int studentId, int indexElective)
 {
     int id;
-    if (!file_open_e(ALLDATA[indexElective][0]))
+    if (!file_open(ALLDATA[indexElective][0]))
     {
         return 0;
     }
@@ -127,37 +121,7 @@ int deleteStudentFromElective(int studentId, int indexElective)
         remove("temp.bin");
     }
 
-    //printf("Удалено чисел: %d\n", num_deleted);
-
-    
-    /*while (fread(&buff, struct_size, 1, file)) {
-        count++;
-        // если имя совпадает, помечаем запись на удаление
-        if (id == studentId) {
-            position_to_delete = ftell(file) - struct_size; // запоминаем позицию записи
-            printf("позиция для удаления %d\n", position_to_delete);
-            deleted = 1;
-            break;
-        }
-    }
-    
-    fseek(file, position_to_delete + struct_size, SEEK_SET);
-
-    // считываем все записи структур, начиная со следующей за удаляемой записью, на одну позицию назад
-    while (fread(&buff, struct_size, 1, file) == 1) {
-        fseek(file, (count - 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на одну позицию назад
-        fwrite(&buff, struct_size, 1, file); // записываем считанную запись на одну позицию раньше
-        fseek(file, (count + 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на следующую запись
-        count++;
-    }
-
-    // устанавливаем конец файла на место последней записи, которую нужно удалить
-    if (deleted) {
-        _chsize(_fileno(file), (count - 1) * struct_size);
-    }
-    
-    fclose(file); */
-    return 0;
+     return 0;
 }
 
 void TableStudentOfElective(int* arrIds, char* electiveName, int size)
@@ -227,7 +191,7 @@ void topOfElective()
    
     for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
         num_lines = 0;
-        if (!file_open_e(ALLDATA[i][0]))
+        if (!file_open(ALLDATA[i][0]))
         {
             continue;
         }
@@ -237,11 +201,6 @@ void topOfElective()
         }
         num_records[i][0] = i;
         num_records[i][1] = num_lines; // вычислить количество записей
-    
-     /*   fseek(file, 0, SEEK_END); // перейти в конец файла
-        long file_size = ftell(file); // получить размер файла в байтах
-        num_records[i][0] = i;
-        num_records[i][1] = file_size / sizeof(buff); // вычислить количество записей */
         fclose(file);
     }
 

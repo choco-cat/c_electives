@@ -12,7 +12,7 @@ int file_open(int countBytes = 0, int offset = SEEK_SET)
 
     if (!data)
     {
-        printf("3ќшибка при работе с файлом (его создании или открытии) .\n");
+        printf("ќшибка при работе с файлом (его создании или открытии) .\n");
         return 0;
     }
     fseek(data, countBytes, offset);
@@ -90,6 +90,43 @@ int editStudent()
         return 1;
 
     }
+    return 1;
+}
+
+int deleteStudent(int number)
+{
+    int position_to_delete;
+    int struct_size = sizeof(Student);
+    int deleted = 0;
+    int idToDelete;
+    printf("¬ведено %d\n", number);
+    if (!file_open(struct_size * (number - 1), SEEK_SET)) {
+        return 0;
+    }
+
+    fread(&buffer, sizeof(Student), 1, data);
+    idToDelete = buffer.id;
+    position_to_delete = ftell(data) - struct_size; // запоминаем позицию записи
+
+    fseek(data, position_to_delete + struct_size, SEEK_SET);
+
+    // считываем все записи структур, начина€ со следующей за удал€емой записью, на одну позицию назад
+    while (fread(&buffer, struct_size, 1, data) == 1) {
+        fseek(data, (number - 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на одну позицию назад
+        fwrite(&buffer, struct_size, 1, data); // записываем считанную запись на одну позицию раньше
+        fseek(data, (number + 1) * struct_size, SEEK_SET); // перемещаем указатель текущей позиции на следующую запись
+        number++;
+    }
+
+    // обрезаем файл по байтам
+    _chsize(_fileno(data), (number - 1) * struct_size);
+
+    //удал€ем факультативы у удал€емого студента
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+        deleteStudentFromElective(idToDelete, i);
+    }
+
+    fclose(data);
     return 1;
 }
 

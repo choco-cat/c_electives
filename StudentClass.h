@@ -38,3 +38,5 @@ extern void insertStudentDataAverage();
 extern void insertStudentDataElective(int);
 extern void printStudentTableHeader();
 extern void printStudentTableRow(int, Student);
+extern int deleteStudents();
+extern int deleteStudent(int);

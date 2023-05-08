@@ -13,7 +13,7 @@
 #include "ElectiveClass.h"
 
 extern int list();
-extern int look();
+extern int lookElecive();
 extern int firstMenu();
 extern int secondMenuOfAdmin();
 extern int secondMenuOfUser();

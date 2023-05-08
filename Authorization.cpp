@@ -102,6 +102,7 @@ int interfaceOfAdmin()
 			editStudent();
 			break;
 		case '3':
+			deleteStudents();
 			//printf("\nУдаляем запись:");
 			break;
 		case '4':
@@ -109,7 +110,7 @@ int interfaceOfAdmin()
 			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
-			look();
+			lookElecive();
 			break;
 		case '6':
 			tableStudents();
@@ -136,6 +137,35 @@ int interfaceOfAdmin()
 		}
 	}
 	return 0;
+}
+
+int deleteStudents()
+{
+	system("cls");
+
+	char vibor = '0';
+	char viborField = '0';
+	int quantity = 0;
+	int number = 0;
+
+	while (true) {
+		system("cls");
+
+		puts("\tУдаление данных\n");
+		int quantity = tableStudents();
+		printf("Введите номер записи, которую необходимо удалить: ");
+		do {
+			scanf_s("%d", &number);
+			fflush(stdin);
+			if (number < 1 || number > quantity) {
+				printf("Записи с таким номером нет. Повторите ввод: ");
+			}
+			else
+				break;
+		} while (true);
+
+		return deleteStudent(number);
+	}
 }
 
 int loginAdmin()
