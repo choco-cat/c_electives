@@ -1,37 +1,36 @@
 
 #include "Prototypes and Classes.h"
 
-/*void inputName(Student obj)
+int checkInputDataName(char* name)
 {
-	char symbol;
-	while (true)
+	for (register int i = 0; name[i] != '\0'; i++)
 	{
-		puts("Введите фамилию студента : \n");
-		fflush(stdin);
-		getchar();
-		gets_s(obj.name);
-		for (register int i = 0; obj.name[i] != '\0'; i++)
+		if (isdigit(name[i]))
 		{
-			symbol = obj.name[i];
-			if (!symbol.isdigit())
-			{
-				printf("");
-			}
+			printf("\nНекорректный ввод. Повторите ввод.\n");
+			return 0;
 		}
 	}
+	return 1;
 }
 
-void inputGroupNumber()
+int checkInputDataGroup(int number)
 {
-
+	if (number < 0 || number > 999999)
+	{
+		printf("\nНекорректный ввод. Повторите ввод.\n");
+		return 0;
+	}
+	return 1;
 }
 
-void inputAverageMark()
+int checkInputDataAvarageMark(float number)
 {
-
+	if (number < 0 || number > 10)
+	{
+		printf("\nНекорректный ввод. Повторите ввод.\n");
+		return 0;
+	}
+	return 1;
 }
 
-void inputElective()
-{
-
-}*/

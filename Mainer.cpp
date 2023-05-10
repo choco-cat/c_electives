@@ -16,6 +16,7 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int main()
 {
+	setlocale(LC_ALL, "");
 	system("color F0");
 	FILE* phisic, * math, * english, * database, * programming;
 	int choice;
