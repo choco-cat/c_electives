@@ -110,7 +110,6 @@ int interfaceOfAdmin()
 			break;
 		case '4':
 			sortStudents();
-			//printf("\nВыход в основное меню:");
 			break;
 		case '5':
 			lookElective();
@@ -162,6 +161,10 @@ int deleteStudents()
 
 		puts("\tУдаление данных\n");
 		int quantity = tableStudents();
+		if (quantity == 0)
+		{
+			return 0;
+		}
 		printf("Введите номер записи, которую необходимо удалить: ");
 		do {
 			scanf_s("%d", &number);

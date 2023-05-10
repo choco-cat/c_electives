@@ -27,8 +27,7 @@ int lookElective()
     int keyOfElective = 0;
     int n; // количество считанных чисел
     int id;
-    int* arrIds = (int*)malloc(1000 * sizeof(int)); // выделение пам€ти под массив размером 1000 элементов
-     
+    int* arrIds = (int*)malloc(1000 * sizeof(int)); 
     SetConsoleTextAttribute(hConsole2, FOREGROUND_BLUE);
     printf("--------------------------------------------------------------\n");
     printf("| ¬ыберите факультатив, чьих студентов желаете просмотреть : |");
@@ -45,7 +44,15 @@ int lookElective()
             {
                 continue;
             }
-
+            if (fgetc(file) == EOF)
+            {
+                return 0;
+            }
+            else
+            {
+                rewind(file);
+            }
+            
             while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
                 n++;
             }
@@ -253,7 +260,7 @@ int sortStudentsOfElective()
         return 0;
     }
 
-    if (false) //проверить на пустоту файл
+    if (fgetc(file) == EOF) //проверить на пустоту файл
     {
         printf("\n\n--------------------------------------------------------------\n");
         printf("| ¬ системе не были найдены какие-либо сведени€ о студентах. |\n");
@@ -261,8 +268,9 @@ int sortStudentsOfElective()
     }
     else
     {
+        rewind(file);
         printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf("|                                         ќтобранные студенты по среднему баллу (15 человек)   ‘ј ”Ћ№“ј“»¬ :   %15s       |", electiveName);
+        printf("|                                         ќтобранные студенты по среднему баллу (10 человек)   ‘ј ”Ћ№“ј“»¬ :   %15s       |", electiveName);
         printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
         printStudentTableHeader();
         while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
@@ -291,7 +299,7 @@ int sortStudentsOfElective()
                 }
             }
         }
-        if (quantity > 5) quantity = 5;
+        if (quantity > 10) quantity = 10;
         for (i = 0; i < quantity; i++) {
             printStudentTableRow(i + 1, studentsData[i]);
         }
