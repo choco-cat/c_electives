@@ -64,6 +64,7 @@ int secondMenuOfAdmin()
 	printf(   "*   9 - выход из учётной записи.                                                 *\n");
 	printf(   "*   0 - выход из программы.                                                      *\n");
 	printf(   "*   ? - техподдержка ПО.                                                         *\n");
+	printf(   "*   X - полная очистка ИС.                                                       *\n");
 	printf(   "*                                                                                *");
 	printf("\n**********************************************************************************\n");
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -74,17 +75,31 @@ int secondMenuOfAdmin()
 int secondMenuOfUser()
 {
 	char yourChoice;
+	system("cls");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
 	printf("\n\n-------------------------------\n");
-	printf("| Меню ПОЛЬЗОВАТЕЛЯ         |\n");
-	printf("    -------------------------------\n");
-	printf("\n**********************************************************************************\n*\n");
-	printf("*   1 - добавление СВОИХ личных данных в рейтинговую систему. \n");
-	printf("*   2 - сортировка студентов по среднему баллу на определённом факультативе. \n");
-	printf("*   3 - вывести списки зачисленных определённого факультатива. \n");
-	printf("*   4 - вывести список факультативов в порядке их пополулярности. \n");
-	printf("*   5 - выход из учётной записи. \n");
-	printf("*   6 - выход из программы. \n*");
+	printf(    "| Меню ПОЛЬЗОВАТЕЛЯ           |\n");
+	printf(    "-------------------------------\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
 	printf("\n**********************************************************************************\n");
+	printf("*                                                                                *\n");
+	printf("*   1 - выход из учётной записи.                                                 *\n");
+	printf("*   2 - выход из программы.                                                      *\n");
+	printf("*   ? - техподдержка ПО.                                                         *\n");
+	printf("*                                                                                *\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    printf("|                                                                                |\n");
+	printf(  "|   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -    |\n");
+	printf("|                           ИНДИВИДУЛЬНОЕ ЗАДАНИЕ  :                             |\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
+	printf("*                                                                                *\n");
+	printf("*   3 - сортировка ВСЕХ студентов по среднему баллу.                             *\n");
+	printf("*   4 - вывести списки зачисленных определённого факультатива.                   *\n");
+	printf("*   5 - вывести список факультативов в порядке их пополулярности.                *\n");
+	printf("*   6 - вывести списки всех желающих прослушать определенную дисциплину.         *\n");
+	printf("*                                                                                *\n");
+	printf("**********************************************************************************\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	yourChoice = _getch();
 	return yourChoice;
 }
@@ -134,6 +149,50 @@ int interfaceOfAdmin()
 			break;
 		case '+':
 			addTeacher();
+			break;
+		case 'X':
+			cleaner();
+			break;
+		default:
+			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
+			printf("\nБыл введён некорректный номер подзадачи. Ожидается корректый номер сущесутвующей задачи.\n\n");
+			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			system("pause");
+			system("cls");
+			break;
+		}
+	}
+	return 0;
+}
+
+int interfaceOfUser()
+{
+	system("cls");
+	system("color 0F");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
+	printf("\nВы успешно авторизовались в качестве пользователя, теперь вам доступен список пользовательских функций.");
+	while (1)
+	{
+		switch (secondMenuOfUser())
+		{
+		case '3':
+			sortStudents();
+			break;
+		case '4':
+			sortStudentsOfElective();
+			break;
+		case '5':
+			topOfElective();
+			break;
+		case '6':
+			lookElective();
+			break;
+		case '1':
+			return -5;
+		case '2':
+			return -10;
+		case '?':
+			infoOfAuthor();
 			break;
 		default:
 			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
@@ -264,7 +323,7 @@ int loginUser() {
 		return 0;
 	}
 	else {
-		printf("Файл данных авторизации найден");
+		printf("Файл данных авторизации найден\n\n");
 	}
 
 	fseek(lpu, 0, SEEK_SET);
@@ -274,7 +333,7 @@ int loginUser() {
 		puts("Ни один пользователь не создан.");
 		_getch();
 		fclose(lpu);
-		return 1;
+		return 0;
 	}
 
 	puts("\t--- Вход под пользователем ---\n");
@@ -313,9 +372,10 @@ int loginUser() {
 			counter++;
 			if (counter == 3) {
 				puts("\nВы исчерпали свои попытки.");
-				_getch();
+				system("pause");
+				system("cls");
 				fclose(lpu);
-				return 1;
+				return 0;
 			}
 			printf("\nЛогина \"%s\" нет. Оставшееся количество попыток для ввода логина: %d.\nПовторите ввод.\n", login, 3 - counter);
 		}
@@ -329,8 +389,9 @@ int loginUser() {
 			counter++;
 			if (counter == 3) {
 				puts("\nВы исчерпали свои попытки.");
-				_getch();
-				return 1;
+				system("pause");
+				system("cls");
+				return 0;
 			}
 			printf("\nНеверный пароль. Оставшееся количество попыток для ввода пароля: %d.\nПовторите пароль: ", 3 - counter);
 		}
@@ -349,7 +410,7 @@ int loginUser() {
 		}
 		password[i] = '\0';
 	} while (1);
-	return 0;
+	return 1;
 }
 
 void infoOfAuthor()

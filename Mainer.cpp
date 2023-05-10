@@ -16,7 +16,6 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int main()
 {
-	setlocale(LC_ALL, "");
 	system("color F0");
 	FILE* phisic, * math, * english, * database, * programming;
 	int choice;
@@ -57,7 +56,31 @@ int main()
 			}
 			break;
 		case '2':
-			loginUser();
+			if (loginUser()) {
+				choice = interfaceOfUser();
+				if (choice == -10)
+				{
+					SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+					printf("\n\n--------------------------------------"
+						"\n| Осуществляем выход из программы... |\n"
+						"| До скорой встречи!                 |\n"
+						"--------------------------------------\n");
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					return 0;
+				}
+				if (choice == -5)
+				{
+					SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+					printf("\n\n-------------------------------------------\n");
+					printf("| Осуществляем выход из учётной записи... |\n");
+					printf("-------------------------------------------\n");
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					system("pause");
+					system("cls");
+					system("color F0");
+					break;
+				}
+			}
 			break;
 		case '3':
 			printf("--------------------------------------"

@@ -22,7 +22,8 @@ extern int secondMenuOfUser();
 extern int loginAdmin();
 extern int loginUser();
 extern int interfaceOfAdmin();
+extern int interfaceOfUser();
 extern int AddStudent();
 extern int contains(int*, int, int);
+extern int cleaner();
 
-//extern int PrintStudent();
