@@ -64,7 +64,6 @@ int secondMenuOfAdmin()
 	printf(   "*   9 - выход из учётной записи.                                                 *\n");
 	printf(   "*   0 - выход из программы.                                                      *\n");
 	printf(   "*   ? - техподдержка ПО.                                                         *\n");
-	printf(   "*   X - полная очистка ИС.                                                       *\n");
 	printf(   "*                                                                                *");
 	printf("\n**********************************************************************************\n");
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -150,8 +149,6 @@ int interfaceOfAdmin()
 		case '+':
 			addTeacher();
 			break;
-		case 'X':
-			cleaner();
 			break;
 		default:
 			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);

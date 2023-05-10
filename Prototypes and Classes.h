@@ -13,6 +13,7 @@
 #include "StudentClass.h"
 #include "TeacherClass.h"
 #include "ElectiveClass.h"
+#include "InputClass.h"
 
 extern int list();
 extern int lookElective();
@@ -25,5 +26,3 @@ extern int interfaceOfAdmin();
 extern int interfaceOfUser();
 extern int AddStudent();
 extern int contains(int*, int, int);
-extern int cleaner();
-

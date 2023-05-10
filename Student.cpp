@@ -251,21 +251,34 @@ void insertStudentDataName()
 
 void insertStudentDataGroup()
 {
-    puts("¬ведите номер группы студента :\n");
-    scanf_s("%d", &buffer.group_number);
+    while (true)
+    {
+        puts("¬ведите номер группы студента :\n");
+        scanf_s("%d", &buffer.group_number);
+        if (checkInputDataGroup(buffer.group_number))
+        {
+            break;
+        }
+    }
 }
 
 void insertStudentDataAverage()
 {
-    puts("\n¬ведите средний балл студента.\n");
-    scanf_s("%f", &buffer.average_mark);
+    while (true)
+    {
+        puts("¬ведите средний балл студента :\n");
+        scanf_s("%f", &buffer.average_mark);
+        if (checkInputDataAvarageMark(buffer.average_mark))
+        {
+            break;
+        }
+    }
 }
-
 void insertStudentDataElective(int electiveIndex)
 {
     const char* electiveName = ALLDATA[electiveIndex][1];
 
-    printf("\n%s? ", electiveName);
+    printf("\n%s? (1 | 0) ", electiveName);
     scanf_s("%d", &buffer.electives[electiveIndex]);
     if (buffer.electives[electiveIndex] == 1) {
         pushStudentToElective(buffer.id, electiveIndex);
