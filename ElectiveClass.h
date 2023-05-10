@@ -12,3 +12,4 @@ struct Elective
 extern void topOfElective();
 extern int pushStudentToElective(int, int);
 extern int deleteStudentFromElective(int, int);
+extern int file_opens(char*, int,int);

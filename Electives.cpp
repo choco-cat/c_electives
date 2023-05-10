@@ -5,7 +5,7 @@ FILE* file;
 Teacher teacher_ph, teacher_ma, teacher_en, teacher_da, teacher_pr;
 HANDLE hConsole2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
-int file_open(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
+int file_opens(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
 {
    fopen_s(&file, NameOfFile, "rb+");
 
@@ -41,7 +41,7 @@ int lookElective()
         char* electiveFile = ALLDATA[keyOfElective - 1][0];
         char* electiveName = ALLDATA[keyOfElective - 1][1];
         if (keyOfElective > 0 && keyOfElective <= SIZE_OF_ELECTIVE) {
-            if (!file_open(electiveFile))
+            if (!file_opens(electiveFile))
             {
                 continue;
             }
@@ -60,7 +60,7 @@ int lookElective()
 int pushStudentToElective(int studentId, int indexElective)
 {
     int id;
-    if (!file_open(ALLDATA[indexElective][0]))
+    if (!file_opens(ALLDATA[indexElective][0]))
     {
         return 0;
     }
@@ -83,7 +83,7 @@ int deleteStudentFromElective(int studentId, int indexElective)
     FILE* temp_file;
     fopen_s(&temp_file, "temp.bin", "w");
 
-    if (!file_open(ALLDATA[indexElective][0]))
+    if (!file_opens(ALLDATA[indexElective][0]))
     {
         return 0;
     }
@@ -129,7 +129,7 @@ int deleteStudentFromElective(int studentId, int indexElective)
 
 void TableStudentOfElective(int* arrIds, char* electiveName, int size)
 {
-    if (!file_open(STUDENTS_DATA))
+    if (!file_opens(STUDENTS_DATA))
     {
         return;
     }
@@ -198,7 +198,7 @@ void topOfElective()
     SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
         num_lines = 0;
-        if (!file_open(ALLDATA[i][0]))
+        if (!file_opens(ALLDATA[i][0]))
         {
             continue;
         }
@@ -236,4 +236,66 @@ void topOfElective()
     }
     printf("\n\n");
     system("pause");
+}
+
+int sortStudentsOfElective()
+{
+    int* arrIds = (int*)malloc(1000 * sizeof(int));
+    Student studentsData[MAX_COUNT_STUDENTS];
+    Student stud;
+    int i, j;
+    int quantity = 0, n = 0;
+    int keyOfElective = list();
+    char* electiveFile = ALLDATA[keyOfElective - 1][0];
+    char* electiveName = ALLDATA[keyOfElective - 1][1];
+    if (!file_opens(electiveFile)) 
+    {
+        return 0;
+    }
+
+    if (false) //проверить на пустоту файл
+    {
+        printf("\n\n--------------------------------------------------------------\n");
+        printf("| ¬ системе не были найдены какие-либо сведени€ о студентах. |\n");
+        printf("--------------------------------------------------------------\n");
+    }
+    else
+    {
+        printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf("|                                         ќтобранные студенты по среднему баллу (15 человек)   ‘ј ”Ћ№“ј“»¬ :   %15s       |", electiveName);
+        printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
+        printStudentTableHeader();
+        while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
+            n++;
+        }
+        fclose(file);
+        if (!file_opens(STUDENTS_DATA))
+        {
+            return 0;
+        }
+        while (fread(&buff, sizeof(buff), 1, file) > 0)
+        {
+            if (contains(arrIds, n, buff.id)) {
+                studentsData[quantity] = buff;
+                quantity++;
+                //printStudentTableRow(quantity, buff);
+            }
+        }
+        fclose(file);
+        for (i = 0; i < quantity - 1; i++) {
+            for (j = 0; j < quantity - i - 1; j++) {
+                if (studentsData[j].average_mark < studentsData[j + 1].average_mark) {
+                    buff = studentsData[j];
+                    studentsData[j] = studentsData[j + 1];
+                    studentsData[j + 1] = buff;
+                }
+            }
+        }
+        if (quantity > 5) quantity = 5;
+        for (i = 0; i < quantity; i++) {
+            printStudentTableRow(i + 1, studentsData[i]);
+        }
+        system("pause");
+    }
+    return 1;
 }

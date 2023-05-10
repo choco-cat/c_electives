@@ -132,6 +132,7 @@
     <ClCompile Include="Authorization.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mainer.cpp" />
+    <ClCompile Include="Teacher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />

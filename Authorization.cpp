@@ -119,7 +119,7 @@ int interfaceOfAdmin()
 			tableStudents();
 			break;
 		case '7':
-			MakeListOfElective();
+			sortStudentsOfElective();
 			break;
 		case '8':
 			topOfElective(); 
@@ -132,6 +132,9 @@ int interfaceOfAdmin()
 			break;
 		case '?':
 			infoOfAuthor();
+			break;
+		case '+':
+			addTeacher();
 			break;
 		default:
 			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);

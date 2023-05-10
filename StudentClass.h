@@ -36,3 +36,4 @@ extern void printStudentTableRow(int, Student);
 extern int deleteStudents();
 extern int deleteStudent(int);
 extern int MakeListOfElective();
+extern int sortStudentsOfElective();

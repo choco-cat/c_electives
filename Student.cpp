@@ -1,6 +1,6 @@
 #include "Prototypes and Classes.h"
 
-FILE* data;
+FILE* data, elect;
 errno_t err;
 Student buffer;
 Student temp;
@@ -369,7 +369,11 @@ int sortStudents()
     return 1;
 }
 
+
 int makeListOfElective()
 {
+    printf("\nНачинаем формирование списков зачисленных на факультативы...");
 
+
+    return 0;
 }

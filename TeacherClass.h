@@ -9,3 +9,5 @@ struct Teacher
 	char department[10];
 	char scientific_title[10];
 };
+
+extern int addTeacher();
