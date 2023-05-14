@@ -16,13 +16,14 @@ int firstMenu()
 	printf( "\n\n-------------------------------\n");
 	printf( "| Осуществляем авторизацию... |\n");
 	printf( "-------------------------------\n");
-	printf( "\n**************************************************\n");
-	printf(   "*                                                *\n");
-	printf(   "*   1 - авторизация в качестве администратора.   *\n");
-	printf(   "*   2 - авторизация в качестве пользователя.     *\n");
-	printf(   "*   3 - выход из программы.                      *\n");
-	printf(   "*                                                *");
-	printf( "\n**************************************************\n");
+	printf( "\n****************************************************\n");
+	printf(   "*                                                  *\n");
+	printf(   "*   1 - авторизация в качестве администратора.     *\n");
+	printf(   "*   2 - авторизация в качестве пользователя.       *\n");
+	printf(   "*   3 - выход из программы.                        *\n");
+	printf(   "*   $ - регистрация в системе как пользователь.    *\n");
+	printf(   "*                                                  *");
+	printf( "\n****************************************************\n");
 	yourChoice =_getch();
 	return yourChoice;
 }
@@ -38,6 +39,7 @@ int secondMenuOfAdmin()
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
 	printf( "\n**********************************************************************************\n");
 	printf(   "*                                                                                *\n");
+	printf(   "*   e - редактирование сведений о факультативе.                                  *\n");
 	printf(   "*   + - редактирование сведений о преподавателе факультативе.                    *\n");
 	printf(   "*   1 - добавление личных данных студента в рейтинговую систему.                 *\n");
 	printf(   "*   2 - редактирование личных данных определённого студента.                     *\n");
@@ -54,6 +56,7 @@ int secondMenuOfAdmin()
 	printf(   "*   6 - вывод на экран списка персональных данных зарегистрированных студентов.  *\n");
 	printf(   "*   7 - составить и вывести списки зачисленных определённого факультатива.       *\n");
 	printf(   "*   8 - вывести список факультативов в порядке их пополулярности.                *\n");
+	printf(   "*   f - вывести подробную информацию о выбранном факультативе.                   *\n");
 	printf("*                                                                                *\n");
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	printf(   "|                                                                                |\n");
@@ -147,9 +150,13 @@ int interfaceOfAdmin()
 			infoOfAuthor();
 			break;
 		case '+':
-			addTeacher();
+			editTeacher();
 			break;
+		case 'f':
+			infoOfElective();
 			break;
+		case 'e':
+			editInfoOfElective();
 		default:
 			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
 			printf("\nБыл введён некорректный номер подзадачи. Ожидается корректый номер сущесутвующей задачи.\n\n");
@@ -340,6 +347,7 @@ int loginUser() {
 		printf("Введите логин: ");
 		scanf_s("%s", login, sizeof(login));
 		fflush(stdin);
+		printf("\nlogin %s\n", login);
 		printf("Введите пароль: ");
 		for (i = 0; (password[i] = _getch()) != '\r';) {
 			if (password[i] == '\b' && i != 0) {
@@ -448,4 +456,65 @@ void infoOfAuthor()
 	system("pause");
 	system("cls");
 
+}
+
+int regUser()
+{
+	bool empty = false;
+	FILE* lpu;
+	system("cls");
+	int counter = 0;
+	char login[20], file_login[20];
+	char password[20], file_password[20];
+	int sch = 0;
+	int i = 0;
+	printf("\nРегистрация пользователя...");
+	fopen_s(&lpu, authUser, "a");
+	if (lpu == NULL) {
+		printf("\nОшибка при открытии файла с пользователями. Регистрация невозможна.");
+		return 0;
+	}
+	else {
+		printf("\nФайл данных авторизации найден\n\n");
+	}
+	puts("\t--- Регистрация пользователя ---\n");
+	do
+	{
+		sch = 0;
+		rewind(lpu);
+		printf("Введите логин: ");
+		scanf_s("%s", login, sizeof(login));
+		while (fscanf_s(lpu, "%s %s", file_login, (unsigned)_countof(file_login), file_password, (unsigned)_countof(file_password)) == 2)
+		{
+			if (strcmp(login, file_login) == 0)
+			{
+				sch = 1;
+				printf("\nПользоваетль с таким логином уже существует в системе. Авторизируетсь или измените свой логин.\n\n");
+				return 0;
+			}
+		}
+		if (sch == 0)
+		{
+			break;
+		}
+	} while (true);
+	fflush(stdin);
+	printf("\nlogin %s\n", login);
+	printf("Введите пароль: ");
+	for (i = 0; (password[i] = _getch()) != '\r';) {
+		if (password[i] == '\b' && i != 0) {
+			printf("%s", "\b \b");
+			i--;
+		}
+		else if (password[i] != '\b') {
+			printf("%c", '*');
+			i++;
+		}
+	}
+	password[i] = '\0';
+	fprintf(lpu, "\n%s %s", login, password);
+	rewind(lpu);
+	printf("\n\nВы успешно зарегистрировались в качестве пользователя!");
+	fclose(lpu);
+	return 1;
 }

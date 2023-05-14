@@ -65,9 +65,12 @@ int editStudent()
         }
 
         fread(&buffer, sizeof(Student), 1, data);
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_MAGENTA);
         puts("--- Выбранная запись: ---\n");
         printStudentTableHeader();
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_CYAN);
         printStudentTableRow(number, buffer);
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
         fclose(data);
 
         vibor = menuEditStudent();
@@ -274,6 +277,7 @@ void insertStudentDataAverage()
         }
     }
 }
+
 void insertStudentDataElective(int electiveIndex)
 {
     const char* electiveName = ALLDATA[electiveIndex][1];
@@ -357,12 +361,13 @@ int sortStudents()
     else
     {
         rewind(data);
-        printf("\n\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-        printf(    "|                                         Отсортированный по среднему баллу спискок ВСЕХ студентов :                                   |");
-        printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
-
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_MAGENTA);
+        printf("\n\n--------------------------------------------------------------------------------------------------------------------------------------\n");
+        printf(    "|                                         Отсортированный по среднему баллу спискок ВСЕХ студентов :                                 |\n");
+        printf(  "--------------------------------------------------------------------------------------------------------------------------------------\n");
         printStudentTableHeader();
-
+        SetConsoleTextAttribute(hConsole3, FOREGROUND_CYAN);
+        
         while (fread(&studentsData[quantity], sizeof(buffer), 1, data) > 0)
         {
             quantity++;
@@ -385,7 +390,7 @@ int sortStudents()
         }
         system("pause");
     }
-
+    SetConsoleTextAttribute(hConsole3, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     return 1;
 }
 

@@ -22,6 +22,7 @@ extern int secondMenuOfAdmin();
 extern int secondMenuOfUser();
 extern int loginAdmin();
 extern int loginUser();
+extern int regUser();
 extern int interfaceOfAdmin();
 extern int interfaceOfUser();
 extern int AddStudent();

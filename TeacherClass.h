@@ -3,11 +3,12 @@
 struct Teacher
 {
 	//int id;
-	char name[30] = "Не известен";
-	char phone_number[15];
+	char name[30] = " - ";
+	char phone_number[15] = " - ";
 	//char elective[15];
-	char department[10];
-	char scientific_title[10];
+	char department[30] = " - ";
+	char scientific_title[30] = " - ";
 };
 
-extern int addTeacher();
+extern Teacher editTeacher();
+extern Teacher getTeacher(int);

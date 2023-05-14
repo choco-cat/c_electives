@@ -19,6 +19,7 @@ int main()
 	system("color F0");
 	FILE* phisic, * math, * english, * database, * programming;
 	int choice;
+	//setlocale(LC_ALL, "");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	printf("--------------------------------------\n");
@@ -81,6 +82,34 @@ int main()
 					break;
 				}
 			}
+			break;
+		case '$':
+			if (regUser()) {
+				choice = interfaceOfUser();
+				if (choice == -10)
+				{
+					SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+					printf("\n\n--------------------------------------"
+						"\n| Осуществляем выход из программы... |\n"
+						"| До скорой встречи!                 |\n"
+						"--------------------------------------\n");
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					return 0;
+				}
+				if (choice == -5)
+				{
+					SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE);
+					printf("\n\n-------------------------------------------\n");
+					printf("| Осуществляем выход из учётной записи... |\n");
+					printf("-------------------------------------------\n");
+					SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+					system("pause");
+					system("cls");
+					system("color F0");
+					break;
+				}
+			}
+			break;
 			break;
 		case '3':
 			printf("--------------------------------------"
