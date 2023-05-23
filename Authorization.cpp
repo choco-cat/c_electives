@@ -329,7 +329,7 @@ int loginUser() {
 	else {
 		printf("Файл данных авторизации найден\n\n");
 	}
-
+	rewind(lpu);
 	fseek(lpu, 0, SEEK_SET);
 	fscanf_s(lpu, "%s", file_login, sizeof(file_login));
 
@@ -363,6 +363,7 @@ int loginUser() {
 
 		sch = 0;
 		rewind(lpu);
+		fseek(lpu, 0, SEEK_SET);
 		do {
 			fscanf_s(lpu, "%s %s", file_login, (unsigned)_countof(file_login), file_password, (unsigned)_countof(file_password));
 			if (feof(lpu)) {
@@ -388,7 +389,6 @@ int loginUser() {
 	} while (1);
 	fclose(lpu);
 	counter = 0;
-
 	do {
 		if (strcmp(password, file_password)) {
 			counter++;
@@ -460,47 +460,45 @@ void infoOfAuthor()
 
 int regUser()
 {
-	bool empty = false;
 	FILE* lpu;
 	system("cls");
-	int counter = 0;
-	char login[20], file_login[20];
-	char password[20], file_password[20];
+	char login[20];
+	char password[20];
+	char file_login[20];
+	char file_password[20];
 	int sch = 0;
-	int i = 0;
-	printf("\nРегистрация пользователя...");
-	fopen_s(&lpu, authUser, "a");
-	if (lpu == NULL) {
+
+	printf("\nРегистрация пользователя...\n");
+
+	if (fopen_s(&lpu, authUser, "a") != 0) {
 		printf("\nОшибка при открытии файла с пользователями. Регистрация невозможна.");
 		return 0;
 	}
-	else {
-		printf("\nФайл данных авторизации найден\n\n");
-	}
+
 	puts("\t--- Регистрация пользователя ---\n");
-	do
-	{
+
 		sch = 0;
 		rewind(lpu);
 		printf("Введите логин: ");
 		scanf_s("%s", login, sizeof(login));
-		while (fscanf_s(lpu, "%s %s", file_login, (unsigned)_countof(file_login), file_password, (unsigned)_countof(file_password)) == 2)
+		// этот цикл не работает корректно 
+		while (fscanf_s(lpu, "%s %s\n", file_login, (unsigned)_countof(file_login), file_password, (unsigned)_countof(file_password)) == 2)
 		{
+			printf("%s %s\n", file_login,(file_login), file_password);
 			if (strcmp(login, file_login) == 0)
 			{
 				sch = 1;
-				printf("\nПользоваетль с таким логином уже существует в системе. Авторизируетсь или измените свой логин.\n\n");
+				printf("\nПользователь с таким логином уже существует в системе. Авторизируйтесь или измените свой логин.\n\n");
+				fclose(lpu);
 				return 0;
 			}
 		}
-		if (sch == 0)
-		{
-			break;
-		}
-	} while (true);
 	fflush(stdin);
+
 	printf("\nlogin %s\n", login);
 	printf("Введите пароль: ");
+
+	int i = 0;
 	for (i = 0; (password[i] = _getch()) != '\r';) {
 		if (password[i] == '\b' && i != 0) {
 			printf("%s", "\b \b");
@@ -512,9 +510,10 @@ int regUser()
 		}
 	}
 	password[i] = '\0';
-	fprintf(lpu, "\n%s %s", login, password);
-	rewind(lpu);
+
+	fprintf(lpu, "%s %s\n", login, password);
 	printf("\n\nВы успешно зарегистрировались в качестве пользователя!");
+
 	fclose(lpu);
 	return 1;
 }

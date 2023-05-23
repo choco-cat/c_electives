@@ -246,10 +246,22 @@ void insertStudentDataId()
 
 void insertStudentDataName()
 {
-    puts("¬ведите фамилию студента : \n");
-    fflush(stdin);
-    getchar();
-    gets_s(buffer.name);
+    bool flag = false;
+    while (true)
+    {
+        puts("¬ведите фамилию студента : \n");
+        fflush(stdin);
+        if (!flag)
+        {
+            getchar();
+            flag = true;
+        }
+        gets_s(buffer.name);
+        if (checkInputDataName(buffer.name))
+        {
+            break;
+        }
+    }
 }
 
 void insertStudentDataGroup()

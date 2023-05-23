@@ -5,7 +5,7 @@ int checkInputDataName(char* name)
 {
 	for (register int i = 0; name[i] != '\0'; i++)
 	{
-		if (isdigit(name[i]))
+		if (!isalpha(name[i]))
 		{
 			printf("\nНекорректный ввод. Повторите ввод.\n");
 			return 0;
