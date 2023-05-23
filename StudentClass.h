@@ -9,13 +9,6 @@ struct Student
 	char name[30];
 };
 
-struct Student_Elective
-{
-	int id;
-	int student_id;
-	int elective_id;
-};
-
 extern int addStudent();
 extern int printStudent();
 extern int tableStudents();

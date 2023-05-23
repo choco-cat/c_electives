@@ -34,3 +34,12 @@ int checkInputDataAvarageMark(float number)
 	return 1;
 }
 
+int checkInputDataElective(int number)
+{
+	if (number != 0 && number != 1)
+	{
+		printf("\nНекорректный ввод. Повторите ввод.\n");
+		return 0;
+	}
+	return 1;
+}

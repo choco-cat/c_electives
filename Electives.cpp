@@ -1,9 +1,14 @@
 #include "Prototypes and Classes.h"
 
-char ALLDATA[6][2][30] = { {"DataOfPhisic.bin", "Физика"}, {"DataOfProgramming.bin", "Программирование"},  {"DataOfMath.bin", "Математика"} , {"DataOfEnglish.bin", "Английский язык"}, {"DataOfDatabase.bin", "Базы данных"}};
+char ALLDATA[6][2][30] = { {"DataOfPhisic.bin", "Физика"}, 
+                           {"DataOfProgramming.bin", "Программирование"},
+                           {"DataOfMath.bin", "Математика"} , 
+                           {"DataOfEnglish.bin", "Английский язык"}, 
+                           {"DataOfDatabase.bin", "Базы данных"}};
+
 Student buff;
 FILE* file;
-Elective info[5];
+
 HANDLE hConsole2 = GetStdHandle(STD_OUTPUT_HANDLE);
 
 int file_opens(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
@@ -12,7 +17,8 @@ int file_opens(char* NameOfFile, int countBytes = 0, int offset = SEEK_SET)
 
     if (!file)
     {
-        if (!file) {
+        if (!file) 
+        {
             printf("Ошибка при работе с файлом %s (его создании или открытии) .\n", NameOfFile);
         }
         return 0;
@@ -34,13 +40,15 @@ int lookElective()
     printf("| Выберите факультатив, чьих студентов желаете просмотреть : |");
     printf("\n--------------------------------------------------------------");
     SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    do {
+    do 
+    {
         int keyOfElective = list();
         n = 0;
         memset(arrIds, 0, sizeof(arrIds)); // заполнение массива нулями
         char* electiveFile = ALLDATA[keyOfElective - 1][0];
         char* electiveName = ALLDATA[keyOfElective - 1][1];
-        if (keyOfElective > 0 && keyOfElective <= SIZE_OF_ELECTIVE) {
+        if (keyOfElective > 0 && keyOfElective <= SIZE_OF_ELECTIVE) 
+        {
             if (!file_opens(electiveFile))
             {
                 continue;
@@ -53,12 +61,11 @@ int lookElective()
             {
                 rewind(file);
             }
-            
-            while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
+            while (fscanf_s(file, "%d", &arrIds[n]) == 1 && n < 1000) 
+            {
                 n++;
             }
             fclose(file);
-
             TableStudentOfElective(arrIds, electiveName, n);
         }
     } while (keyOfElective != 0);
@@ -72,9 +79,10 @@ int pushStudentToElective(int studentId, int indexElective)
     {
         return 0;
     }
-
-    while (fscanf_s(file, "%d", &id) != EOF) {
-        if (id == studentId) {
+    while (fscanf_s(file, "%d", &id) != EOF) 
+    {
+        if (id == studentId) 
+        {
             // Нашли id, студент уже записан на факультатив
             fclose(file);
             return 0;
@@ -90,7 +98,6 @@ int deleteStudentFromElective(int studentId, int indexElective)
 {
     FILE* temp_file;
     fopen_s(&temp_file, "temp.bin", "w");
-
     if (!file_opens(ALLDATA[indexElective][0]))
     {
         return 0;
@@ -100,39 +107,38 @@ int deleteStudentFromElective(int studentId, int indexElective)
     int id;
     // читаем записи из файла
     int count = 0;
-
     // Читаем по одному числу из входного файла
-    while (fscanf_s(file, "%d", &id) != EOF) {
+    while (fscanf_s(file, "%d", &id) != EOF) 
+    {
         if (id == studentId) {
             // Нашли число, которое нужно удалить
             num_deleted++;
             continue;  // Пропускаем запись числа во временный файл
         }
-
         // Записываем числа, которые не нужно удалять, во временный файл
         fprintf(temp_file, "%d\n", id);
     }
-
     fclose(file);
     fclose(temp_file);
-
     // Заменяем входной файл временным
-    if (num_deleted > 0) {
-        if (remove(ALLDATA[indexElective][0]) != 0) {
+    if (num_deleted > 0) 
+    {
+        if (remove(ALLDATA[indexElective][0]) != 0) 
+        {
             perror("Не удалось удалить входной файл");
             return -1;
         }
-        if (rename("temp.bin", ALLDATA[indexElective][0]) != 0) {
+        if (rename("temp.bin", ALLDATA[indexElective][0]) != 0) 
+        {
             perror("Не удалось переименовать временный файл");
             return -1;
         }
     }
-    else {
-        // Если ни одно число не было удалено, удаляем временный файл
+    else 
+    {
         remove("temp.bin");
     }
-
-     return 0;
+    return 0;
 }
 
 void TableStudentOfElective(int* arrIds, char* electiveName, int size)
@@ -142,8 +148,7 @@ void TableStudentOfElective(int* arrIds, char* electiveName, int size)
     {
         return;
     }
-
-    if (false) //проверить на пустоту файл
+    if (fgetc(file) == EOF) 
     {
         printf("\n\n-----------------------------------------------------------------------------------\n");
         printf("| В системе не были найдены какие-либо сведения о студентах ДАННОГО факультатива. |\n");
@@ -151,16 +156,17 @@ void TableStudentOfElective(int* arrIds, char* electiveName, int size)
     }
     else
     {
+        rewind(file);
         printf("\n\n--------------------------------------------------------------------------------------------------------------------------------------\n");
         printf(    "|                                        Факультатив -- %17s --                                                         |", electiveName);
         printf("\n--------------------------------------------------------------------------------------------------------------------------------------\n");
-        
         printStudentTableHeader();
         SetConsoleTextAttribute(hConsole2, FOREGROUND_CYAN);
         int couner = 0;
         while (fread(&buff, sizeof(buff), 1, file) > 0)
         {
-            if (contains(arrIds, size, buff.id)) {
+            if (contains(arrIds, size, buff.id)) 
+            {
                 couner++;
                 printStudentTableRow(couner, buff);
             }
@@ -170,9 +176,12 @@ void TableStudentOfElective(int* arrIds, char* electiveName, int size)
     system("pause");
 }
 
-int contains(int arr[], int size, int x) {
-    for (int i = 0; i <= size; i++) {
-        if (arr[i] == x) {
+int contains(int arr[], int size, int x) 
+{
+    for (int i = 0; i <= size; i++) 
+    {
+        if (arr[i] == x) 
+        {
             return 1; // массив содержит число x
         }
     }
@@ -184,7 +193,8 @@ int list()
     SetConsoleTextAttribute(hConsole2, FOREGROUND_MAGENTA);
     int yourChoice;
     printf("\n\n\n********************************\n*\n");
-    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) 
+    {
         printf("*   %d - %s.                                \n", i + 1,  ALLDATA[i][1]);
     }
     printf("*   0 - выход в ОСНОВНОЕ меню.                   \n*");
@@ -206,21 +216,21 @@ void topOfElective()
     printf("| Список ФАКУЛЬТАТИТОВ в порядке их популярности... |\n");
     printf("-----------------------------------------------------\n");
     SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) {
+    for (int i = 0; i < SIZE_OF_ELECTIVE; i++) 
+    {
         num_lines = 0;
         if (!file_opens(ALLDATA[i][0]))
         {
             continue;
         }
-        
-        while (fgets(line, sizeof(line), file) != NULL) {
+        while (fgets(line, sizeof(line), file) != NULL) 
+        {
             num_lines++;
         }
         num_records[i][0] = i;
         num_records[i][1] = num_lines; // вычислить количество записей
         fclose(file);
     }
-
     for (int i = 0; i < SIZE_OF_ELECTIVE - 1; i++) 
     {
         for (int j = 0; j < SIZE_OF_ELECTIVE - i - 1; j++)
@@ -250,7 +260,6 @@ void topOfElective()
 
 int sortStudentsOfElective()
 {
-   
     int* arrIds = (int*)malloc(1000 * sizeof(int));
     Student studentsData[MAX_COUNT_STUDENTS];
     Student stud;
@@ -278,7 +287,8 @@ int sortStudentsOfElective()
         printf("\n----------------------------------------------------------------------------------------------------------------------------------------\n");
         printStudentTableHeader();
         SetConsoleTextAttribute(hConsole2, FOREGROUND_CYAN);
-        while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) {
+        while (fscanf_s(file, "%d", &arrIds[n]) && n < 1000) 
+        {
             n++;
         }
         fclose(file);
@@ -288,16 +298,20 @@ int sortStudentsOfElective()
         }
         while (fread(&buff, sizeof(buff), 1, file) > 0)
         {
-            if (contains(arrIds, n, buff.id)) {
+            if (contains(arrIds, n, buff.id)) 
+            {
+
                 studentsData[quantity] = buff;
                 quantity++;
-                //printStudentTableRow(quantity, buff);
             }
         }
         fclose(file);
-        for (i = 0; i < quantity - 1; i++) {
-            for (j = 0; j < quantity - i - 1; j++) {
-                if (studentsData[j].average_mark < studentsData[j + 1].average_mark) {
+        for (i = 0; i < quantity - 1; i++) 
+        {
+            for (j = 0; j < quantity - i - 1; j++) 
+            {
+                if (studentsData[j].average_mark < studentsData[j + 1].average_mark) 
+                {
                     buff = studentsData[j];
                     studentsData[j] = studentsData[j + 1];
                     studentsData[j + 1] = buff;
@@ -305,53 +319,13 @@ int sortStudentsOfElective()
             }
         }
         if (quantity > 10) quantity = 10;
-        for (i = 0; i < quantity; i++) {
+        for (i = 0; i < quantity; i++) 
+        {
             printStudentTableRow(i + 1, studentsData[i]);
         }
         system("pause");
-
     }
     SetConsoleTextAttribute(hConsole2, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     return 1;
 }
 
-void editInfoOfElective()
-{
-    printf("\nИнформацию о каком факультативе вы желаете изменить?");
-    int index = list() - 1;
-    printf("\nФакультатив %s", ALLDATA[index][1]);
-    printf("\nВведите время и день, когда будет проводится факультатив в формате ( 12.00 ПН ) : ");
-    fflush(stdin);
-    getchar();
-    scanf_s("%s", &info[index].start_time, sizeof(info[index].start_time));
-    printf("\nВведите место проведения, где будет проводится факультатив в формате ( 223-5к ) : ");
-    scanf_s("%s", &info[index].location, sizeof(info[index].location));
-    printf("\nВведите длительность факультатива в формате ( 1.25 ч) : ");
-    scanf_s("%s", &info[index].duration, sizeof(info[index].duration));
-}
-
-void infoOfElective()
-{
-    printf("\nИнформацию о преподавателе какого факультатива вы желаете вывести?");
-    int index = list() - 1;
-    printInfoOfElective(index);
-}
-
-void printInfoOfElective(int id)
-{
-    Teacher teacher = getTeacher(id);
-    system("cls");
-    printf("\n+---------------------------------------------------------------------------------------+\n");
-    printf(  "|                        Информация о факультативе         -- %15s --                   |\n", ALLDATA[id][1]);
-    printf(  "+---------------------------------------------------------------------------------------+\n");
-    printf(  "|            ОСОБЫЕ СВЕДЕНИЯ :            |                ПРЕПОДАВАТЕЛЬ :              |\n");
-    printf(  "+---------------------------------------------------------------------------------------+\n");
-    printf(  "|                                         |                                             |\n");
-    printf(  "|   РАСПИСАНИЕ : %s                |    ФАМИЛИЯ : %s                           |\n", info[id].start_time, teacher.name);
-    printf(  "|   МЕСТО ПРОВОДЕНИЯ : %s             |    НОМЕР ТЕЛЕФОНА : %s                    |\n", info[id].location, teacher.phone_number);
-    printf(  "|   ДЛИТЕЛЬНОСТЬ : %s                  |    КАФЕДРА : %s                           |\n", info[id].duration, teacher.department);
-    printf(  "|                                         |    НАУЧНОЕ ЗВАНИЕ : %s                    |\n", teacher.scientific_title);
-    printf(  "|                                         |                                             |\n");
-    printf(  "+---------------------------------------------------------------------------------------+\n");
-    system("pause");
-}

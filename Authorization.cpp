@@ -8,8 +8,6 @@
 
 HANDLE hConsole1 = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void infoOfAuthor();
-
 int firstMenu()
 {
 	char yourChoice;
@@ -39,8 +37,6 @@ int secondMenuOfAdmin()
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_GREEN);
 	printf( "\n**********************************************************************************\n");
 	printf(   "*                                                                                *\n");
-	printf(   "*   e - редактирование сведений о факультативе.                                  *\n");
-	printf(   "*   + - редактирование сведений о преподавателе факультативе.                    *\n");
 	printf(   "*   1 - добавление личных данных студента в рейтинговую систему.                 *\n");
 	printf(   "*   2 - редактирование личных данных определённого студента.                     *\n");
 	printf(   "*   3 - удаление личных данных определённого студента.                           *\n");
@@ -56,7 +52,6 @@ int secondMenuOfAdmin()
 	printf(   "*   6 - вывод на экран списка персональных данных зарегистрированных студентов.  *\n");
 	printf(   "*   7 - составить и вывести списки зачисленных определённого факультатива.       *\n");
 	printf(   "*   8 - вывести список факультативов в порядке их пополулярности.                *\n");
-	printf(   "*   f - вывести подробную информацию о выбранном факультативе.                   *\n");
 	printf("*                                                                                *\n");
 	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 	printf(   "|                                                                                |\n");
@@ -149,14 +144,6 @@ int interfaceOfAdmin()
 		case '?':
 			infoOfAuthor();
 			break;
-		case '+':
-			editTeacher();
-			break;
-		case 'f':
-			infoOfElective();
-			break;
-		case 'e':
-			editInfoOfElective();
 		default:
 			SetConsoleTextAttribute(hConsole1, FOREGROUND_RED);
 			printf("\nБыл введён некорректный номер подзадачи. Ожидается корректый номер сущесутвующей задачи.\n\n");
@@ -210,39 +197,6 @@ int interfaceOfUser()
 	return 0;
 }
 
-int deleteStudents()
-{
-	system("cls");
-
-	char vibor = '0';
-	char viborField = '0';
-	int quantity = 0;
-	int number = 0;
-
-	while (true) {
-		system("cls");
-
-		puts("\tУдаление данных\n");
-		int quantity = tableStudents();
-		if (quantity == 0)
-		{
-			return 0;
-		}
-		printf("Введите номер записи, которую необходимо удалить: ");
-		do {
-			scanf_s("%d", &number);
-			fflush(stdin);
-			if (number < 1 || number > quantity) {
-				printf("Записи с таким номером нет. Повторите ввод: ");
-			}
-			else
-				break;
-		} while (true);
-
-		return deleteStudent(number);
-	}
-}
-
 int loginAdmin()
 {
 	system("cls");
@@ -255,20 +209,23 @@ int loginAdmin()
 	printf("Введите логин: ");
 	FILE* lpa;
 	fopen_s(&lpa, authAdmin, "r");
-	if (lpa == NULL) {
+	if (lpa == NULL) 
+	{
 		printf("Невозможно открыть файл");
 		return 0;
 	}
-
 	fseek(lpa, 0, SEEK_SET);
 	fscanf_s(lpa, "%s", file_login, sizeof(file_login));
-	do {
+	do 
+	{
 		scanf_s("%s", login, sizeof(file_login));
 		fflush(stdin);
 		printf("\nlogin %s\n", login);
-		if (strcmp(login, file_login)) {
+		if (strcmp(login, file_login)) 
+		{
 			counter++;
-			if (counter == 3) {
+			if (counter == 3) 
+			{
 				puts("Вы исчерпали свои попытки.");
 				_getch();
 				fclose(lpa);
@@ -278,12 +235,11 @@ int loginAdmin()
 		}
 		else break;
 	} while (1);
-
 	printf("Введите пароль: ");
 	fscanf_s(lpa, "%s", file_password, sizeof(file_password));
-
 	counter = 0;
-	do {
+	do 
+	{
 		for (i = 0; (password[i] = _getch()) != '\r';) {
 			if (password[i] == '\b' && i != 0) {
 				printf("%s", "\b \b");
@@ -295,7 +251,6 @@ int loginAdmin()
 			}
 		}
 		password[i] = '\0';
-
 		if (strcmp(password, file_password)) {
 			counter++;
 			if (counter == 3) {
@@ -312,7 +267,8 @@ int loginAdmin()
 	return 1;
 }
 
-int loginUser() {    
+int loginUser() 
+{    
 	FILE* lpu;
 	system("cls");
 	int counter = 0;
@@ -322,24 +278,25 @@ int loginUser() {
 	int i = 0;
 	printf("Авторизация пользователя...");
 	fopen_s(&lpu, authUser, "r");
-	if (lpu == NULL) {
+	if (lpu == NULL) 
+	{
 		printf("Невозможно открыть файл");
 		return 0;
 	}
-	else {
+	else 
+	{
 		printf("Файл данных авторизации найден\n\n");
 	}
 	rewind(lpu);
 	fseek(lpu, 0, SEEK_SET);
 	fscanf_s(lpu, "%s", file_login, sizeof(file_login));
-
-	if (feof(lpu)) {
+	if (feof(lpu)) 
+	{
 		puts("Ни один пользователь не создан.");
 		_getch();
 		fclose(lpu);
 		return 0;
 	}
-
 	puts("\t--- Вход под пользователем ---\n");
 
 	puts("Для ввода логина и пароля у Вас есть 3 попытки.");
@@ -517,3 +474,26 @@ int regUser()
 	fclose(lpu);
 	return 1;
 }
+
+void goOut()
+{
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf("\n\n--------------------------------------"
+		"\n| Осуществляем выход из программы... |\n"
+		"| До скорой встречи!                 |\n"
+		"--------------------------------------\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
+
+void goBack()
+{
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_BLUE);
+	printf("\n\n-------------------------------------------\n");
+	printf("| Осуществляем выход из учётной записи... |\n");
+	printf("-------------------------------------------\n");
+	SetConsoleTextAttribute(hConsole1, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	system("pause");
+	system("cls");
+	system("color F0");
+}
+

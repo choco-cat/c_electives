@@ -27,3 +27,6 @@ extern int interfaceOfAdmin();
 extern int interfaceOfUser();
 extern int AddStudent();
 extern int contains(int*, int, int);
+extern void infoOfAuthor();
+extern void goOut();
+extern void goBack();
