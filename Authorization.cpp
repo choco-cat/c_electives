@@ -427,7 +427,7 @@ int regUser()
 
 	printf("\nРегистрация пользователя...\n");
 
-	if (fopen_s(&lpu, authUser, "a") != 0) {
+	if (fopen_s(&lpu, authUser, "r+") != 0) {
 		printf("\nОшибка при открытии файла с пользователями. Регистрация невозможна.");
 		return 0;
 	}

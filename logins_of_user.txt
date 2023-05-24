@@ -12,3 +12,7 @@ re 12345
 qwe 098
 tolik tol
 wert 234
+user 1
+user 2
+admin 1
+tolik2 2
