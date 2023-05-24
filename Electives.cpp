@@ -273,7 +273,7 @@ int sortStudentsOfElective()
         return 0;
     }
     SetConsoleTextAttribute(hConsole2, FOREGROUND_MAGENTA);
-    if (fgetc(file) == EOF) //проверить на пустоту файл
+    if (fgetc(file) == EOF)
     {
         printf("\n\n--------------------------------------------------------------\n");
         printf("| ¬ системе не были найдены какие-либо сведени€ о студентах. |\n");

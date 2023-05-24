@@ -14,9 +14,9 @@ int checkInputDataName(char* name)
 	return 1;
 }
 
-int checkInputDataGroup(int number)
+int checkInputDataGroup(int group)
 {
-	if (number < 0 || number > 999999)
+	if (group < 0 || group > 999999)
 	{
 		printf("\nНекорректный ввод. Повторите ввод.\n");
 		return 0;
